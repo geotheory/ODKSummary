@@ -2,8 +2,14 @@ INSTALLATION
 
 `git clone https://github.com/geotheory/ODKSummary`
 
+** update with ODGAggregate IP address **
+
 TO RUN
-cd to ODKSummary directory
-`./get_odk_data.sh`
 
+1. cd to ODKSummary directory
 
+2. `./get_odk_data.sh`
+
+BACKGROUND
+
+See 'notes.txt' for details on the individual processes involved.
