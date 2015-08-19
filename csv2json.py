@@ -1,28 +1,15 @@
 import json
 import sys
 
-print sys.argv[1]
-f = open(sys.argv[1],'r')
+arr = []
 
-arr=[]
-headers = []
-
-for header in f.readline().split(','):
-  headers.append(header)
-
-# replace characters that can be problematic in JSON category names
-headers = [h.replace('-', '_') for h in headers]
-headers = [h.replace(' ', '_') for h in headers]
-headers = [h.replace('.', '_') for h in headers]
-
-for line in f.readlines():
-  lineItems = {}
-  for i,item in enumerate(line.split(',')):  
-    lineItems[headers[i]] = item
-  arr.append(lineItems)
+with open(sys.argv[1]) as f:
+	lines = f.read().splitlines()
+	for line in lines:
+		arr.append(line.split(','))
 
 f.close()
 
-jsonText = json.dumps(arr)
+output = json.dumps(arr, separators=(',',':'))
 
-print jsonText
+print output
