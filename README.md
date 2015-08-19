@@ -1,7 +1,9 @@
-# ODKSummary - Tools for summarising data served by ODKAggregate
+# ODKSummary basic operation
+
+## Tools for summarising data served by ODKAggregate
 
 
-## Installation
+### Installation
 
 1. navigate to a server root directory - e.g. `cd /var/lib/tomcat7/webapps`
 
@@ -12,15 +14,15 @@
 4. update system Java if necessary - min v6 is required
 
 
-## To run
+### To run
 
 1. cd into the ODKSummary directory
 
 2. `./get_odk_data.sh`
 
 
-## Background
+### Background
 
-- See 'notes.txt' for comments on the individual processes involved
+- See [NOTES.md](https://github.com/geotheory/ODKSummary/blob/master/NOTES.md) for notes on the individual processes involved
 
 - See also https://opendatakit.org/use/briefcase/
