@@ -2,7 +2,7 @@
 // read in JSON file
 
 $(function(){
-	$.getJSON("data/odk_data2.json", function(jsdata) {
+	$.getJSON("data/MOAS_OPD_v_7_23a.json", function(jsdata) {
 		json = jsdata;
 
 		headers = [];
@@ -15,7 +15,7 @@ $(function(){
 	});
 });
 
-var maxwidth = 120;
+var maxwidth = 100;
 
 
 // DATA TYPE MANAGEMENT FUNCTIONS
@@ -94,7 +94,7 @@ function sf2(str){
 		return N.toString();
 	}
 	else {
-		if(str == '') str = 'no entry'
+		if(str == '') str = 'no data'
 		return str;
 	}
 }
@@ -184,8 +184,8 @@ function summariseRow(headr, array){
 	var n_numbers = countNums(arr);         // numeric value count
 	var n_uniques = arr.getUnique().length; // unique value count
 	var report;
-	// workflow: determine data type, then summarise and report accordingly
 
+	// workflow: determine data type and summarise/report accordingly
 	if(n_uniques < 5){           // few uniques - factorised
 		report = report_factors(headr, array);
 	}
@@ -203,8 +203,11 @@ function summariseRow(headr, array){
 }
 
 function summarise(d){
+	$( "h4" ).remove( "#waitingfordata" );
 	var $dom = $( "#maincontainer" );
-	$dom.append($.parseHTML( '<h4>' + d[0].length + ' RECORDS</h4><br/>' ));
+	
+	// headline stats
+	$dom.append($.parseHTML( '<h4>-- ' + d[0].length + ' records / ' + d.length + ' fields --</h4><br/>' ));
 	
 	for(var i=0; i<d.length; i++){
 		// report.push(summariseRow(headers[i], d[i]));
@@ -213,5 +216,3 @@ function summarise(d){
 	}
 	console.log('done');
 }
-
-

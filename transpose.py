@@ -1,6 +1,7 @@
 import csv
 import sys
 from itertools import izip
-path = sys.argv[1]
-a = izip(*csv.reader(open(path + "/odk_data.csv", "rb")))
-csv.writer(open(path + "/odk_data2.csv", "wb")).writerows(a)
+
+a = izip(*csv.reader(open(sys.argv[1], "rb")))
+
+csv.writer(open(sys.argv[2], "wb")).writerows(a)
