@@ -2,6 +2,7 @@
 // read in JSON file
 
 var forms, json;
+var $dom = $( "#maincontainer" );
 
 function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
@@ -244,8 +245,8 @@ function summariseRow(headr, array){
 }
 
 function summarise(d){
-	$( "h4" ).remove( "#waitingfordata" );
-	var $dom = $( "#maincontainer" );
+	
+	$( "#maincontainer" ).empty();
 	
 	// headline stats
 	$dom.append($.parseHTML( '<h4>-- ' + d[0].length + ' records / ' + d.length + ' fields --</h4><br/>' ));
