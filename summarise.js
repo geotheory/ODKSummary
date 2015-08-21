@@ -1,19 +1,60 @@
 
 // read in JSON file
 
+var forms, json;
+
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
 $(function(){
-	$.getJSON("data/MOAS_OPD_v_7_23a.json", function(jsdata) {
-		json = jsdata;
-
-		headers = [];
-
-		for(var i=0; i<json.length; i++){
-			headers.push( json[i].shift() );
-		}
-
-		summarise(json);
+	$.getJSON("/forms.json", function(jsdata) {
+		forms = jsdata;
+		setup_dropdown();
 	});
 });
+
+function setup_dropdown(){
+	$(document).ready(function(){
+		$("#odk_dropdown").change(onSelectChange);
+	});
+
+	function onSelectChange(){
+		var selected = $("#odk_dropdown option:selected");		
+		var output = "";
+		if(selected.val() != 0){
+			output = "You Selected " + selected.val();
+
+			// JSON data call goes here
+			var file = 'data/' + replaceAll(selected.val(), '[.]', '_') + '.json';
+			// console.log('calling ' + file);
+			getJson(file);
+		}
+		$("#dropdown_output").html(output);
+	}
+
+	var $dom = $('#odk_dropdown');
+
+	for(var i=0; i<forms.length; i++){
+		$dom.append($.parseHTML( '<option value="' + forms[i][0] + '">' + forms[i][1] + '</option>'));
+	}
+}
+
+function getJson(file){
+	$(function(){
+		$.getJSON(file, function(jsdata) {
+			json = jsdata;
+
+			headers = [];
+
+			for(var i=0; i<json.length; i++){
+				headers.push( json[i].shift() );
+			}
+
+			summarise(json);
+		});
+	});
+}
 
 var maxwidth = 100;
 
@@ -214,5 +255,4 @@ function summarise(d){
 		var new_html = $.parseHTML( summariseRow(headers[i], d[i]) );
 		$dom.append( new_html );
 	}
-	console.log('done');
 }

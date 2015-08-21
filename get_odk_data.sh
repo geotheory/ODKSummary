@@ -30,4 +30,7 @@ python transpose.py $dir/$nameb $dir/$namec >> $dir'/debug.log' 2>&1;
 # to json
 python csv2json.py $dir/$namec > $dir/$named
 
+# update forms.json
+python csv2json.py forms.csv > forms.json
+
 echo 'Done. For debugging see data/debug.log'
