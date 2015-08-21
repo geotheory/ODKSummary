@@ -3,11 +3,12 @@
 
 var forms, json;
 var $dom = $( "#maincontainer" );
+var maxwidth = 100;
 
-function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(find, 'g'), replace);
-}
+// replace filename chars '.' with '_' - for some reason Briefcase changes these
+function replace_all(str, find, replace){ return str.replace(new RegExp(find, 'g'), replace) ;}
 
+// get list of available forms
 $(function(){
 	$.getJSON("/forms.json", function(jsdata) {
 		forms = jsdata;
@@ -15,49 +16,45 @@ $(function(){
 	});
 });
 
+// setup dropdown box based on available forms
 function setup_dropdown(){
-	$(document).ready(function(){
-		$("#odk_dropdown").change(onSelectChange);
-	});
+	$(document).ready(function(){ $("#odk_dropdown").change(on_select_change);});
 
-	function onSelectChange(){
+	function on_select_change(){
 		var selected = $("#odk_dropdown option:selected");		
 		var output = "";
 		if(selected.val() != 0){
 			output = "You Selected " + selected.val();
 
-			// JSON data call goes here
-			var file = 'data/' + replaceAll(selected.val(), '[.]', '_') + '.json';
+			// JSON data call
+			var file = 'data/' + replace_all(selected.val(), '[.]', '_') + '.json';
 			// console.log('calling ' + file);
-			getJson(file);
+			get_json(file);
 		}
-		$("#dropdown_output").html(output);
 	}
 
-	var $dom = $('#odk_dropdown');
-
+	// append select options to dropdown in DOM
+	var $odk_dropdown = $('#odk_dropdown');
 	for(var i=0; i<forms.length; i++){
-		$dom.append($.parseHTML( '<option value="' + forms[i][0] + '">' + forms[i][1] + '</option>'));
+		$odk_dropdown.append($.parseHTML( '<option value="' + forms[i][0] + '">' + forms[i][1] + '</option>'));
 	}
 }
 
-function getJson(file){
+function get_json(file){
 	$(function(){
 		$.getJSON(file, function(jsdata) {
 			json = jsdata;
 
+			// seperate headers
 			headers = [];
-
 			for(var i=0; i<json.length; i++){
 				headers.push( json[i].shift() );
 			}
-
+			 // main function
 			summarise(json);
 		});
 	});
 }
-
-var maxwidth = 100;
 
 
 // DATA TYPE MANAGEMENT FUNCTIONS
@@ -74,20 +71,18 @@ Array.prototype.clean = function(deleteValue) {
 };
 
 // is numeric or coercible to numeric
-function isNumeric(n){
+function is_numeric(n){
 	if(isNaN(n)) return false;
 	if(n.toString() == '') return false;
 	return true;
 }
 
 // count items coercible to numberic
-function countNums(array){
+function count_nums(array){
 	var ncount = 0;
 	for(var i=0; i<array.length; i++){
 		var N = array[i];
-		if(isNumeric(N)){
-			ncount ++;
-		}
+		if(is_numeric(N)){ ncount ++;}
 	}
 	return ncount;
 }
@@ -96,23 +91,15 @@ function countNums(array){
 
 function sum(array){
 	var total = 0;
-	for(var i = 0; i < array.length; i++){
-		total += array[i];
-	}
+	for(var i = 0; i < array.length; i++){ total += array[i] ;}
 	return total;
 }
 
-Array.prototype.max = function() {
-  return Math.max.apply(null, this);
-};
+Array.prototype.max = function() { return Math.max.apply(null, this);};
 
-Array.prototype.min = function() {
-  return Math.min.apply(null, this);
-};
+Array.prototype.min = function() { return Math.min.apply(null, this);};
 
-function mean(array){
-	return sum(array)/array.length;
-}
+function mean(array){ return sum(array)/array.length;}
 
 function median(array){
 	var arr = array.slice(0);
@@ -131,7 +118,7 @@ function quartile_3(array){
 
 // string of number rounded to 2 decimals
 function sf2(str){
-	if(isNumeric(str)){
+	if(is_numeric(str)){
 		var N = Math.round(Number(str) * 100)/100;
 		return N.toString();
 	}
@@ -141,27 +128,10 @@ function sf2(str){
 	}
 }
 
-// summary stats for numeric array
-function report_stats(headr, array){
-	var n = array.length;
-	var arr = array.slice(0);
-	arr = arr.map(Number).clean();
-	var a = [];
-	while(arr.length > 0){
-		var N = arr.pop();
-		if(isNumeric(N)){
-			a.push(N);
-		}
-	}
-	return ('<b>' + headr + '</b> | min= ' + sf2(a.min()) + ' | Q1= ' + sf2(quartile_1(a)) + ' | median= ' + 
-		sf2(median(a)) + ' | mean= ' + sf2(mean(a)) + ' | Q3= ' + sf2(quartile_3(a)) + 
-		' | max= ' + sf2(a.max()) + ' | NaN= ' + (n-a.length) + '/' + n);
-}
-
 // FACTORISING ARRAYS
 
 // unique values in array
-Array.prototype.getUnique = function(){
+Array.prototype.get_unique = function(){
 	var u = {}, a = [];
 	for(var i = 0, l = this.length; i < l; ++i){
 		if(u.hasOwnProperty(this[i])) {
@@ -174,7 +144,7 @@ Array.prototype.getUnique = function(){
 }
 
 // dictionary of value counts
-function summaryCounts(array){
+function summary_counts(array){
 	var counts = {};
 	for(var i = 0; i< array.length; i++) {
 		var num = array[i];
@@ -184,7 +154,7 @@ function summaryCounts(array){
 }
 
 // sorted array of most common tuples
-function mostCommon(tup){
+function most_common(tup){
 	var tuples = [];
 	for (var key in tup) tuples.push([key, tup[key]]);
 	tuples.sort(function(a, b) {
@@ -195,9 +165,27 @@ function mostCommon(tup){
 	return tuples;
 }
 
+// REPORTING FUNCTIONS
+
+// for reporting fields with large n of numeric uniques
+function report_stats(headr, array){
+	var n = array.length;
+	var arr = array.slice(0);
+	arr = arr.map(Number).clean();
+	var a = [];
+	while(arr.length > 0){
+		var N = arr.pop();
+		if(is_numeric(N)){ a.push(N);}
+	}
+	return ('<b>' + headr + '</b> | min= ' + sf2(a.min()) + ' | Q1= ' + sf2(quartile_1(a)) + ' | median= ' + 
+		sf2(median(a)) + ' | mean= ' + sf2(mean(a)) + ' | Q3= ' + sf2(quartile_3(a)) + 
+		' | max= ' + sf2(a.max()) + ' | NaN= ' + (n-a.length) + '/' + n);
+}
+
+// for reporting fields with small n of uniques
 function report_factors(headr, array){
-	var counts = summaryCounts(array);
-	var ranked = mostCommon(counts);
+	var counts = summary_counts(array);
+	var ranked = most_common(counts);
 	var report = '<b>' + headr + '</b>';
 	for(var i=0; i<ranked.length; i++){
 		report += " | '" + sf2(ranked[i][0]) + "': " + sf2(ranked[i][1]);
@@ -205,10 +193,11 @@ function report_factors(headr, array){
 	return report;
 }
 
+// for reporting fields with large n of non-numeric uniques
 function report_many(headr, array){
 	var w = maxwidth;
-	var counts = summaryCounts(array);
-	var ranked = mostCommon(counts);
+	var counts = summary_counts(array);
+	var ranked = most_common(counts);
 	var report = '<b>' + headr + '</b> | ' + ranked.length + ' unique';
 	for(var i=0; i<ranked.length; i++){
 		var appendum = " | '" + sf2(ranked[i][0]) + "': " + sf2(ranked[i][1]);
@@ -219,23 +208,23 @@ function report_many(headr, array){
 	return report;
 }
 
-
-function summariseRow(headr, array){
+// classify data row and report accordingly
+function summarise_row(headr, array){
 	var arr = array.slice(0);
-	var n = array.length;                   // array length
-	var n_numbers = countNums(arr);         // numeric value count
-	var n_uniques = arr.getUnique().length; // unique value count
+	var n = array.length;                        // array length
+	var n_numbers = count_nums(arr);             // numeric value count
+	var n_uniques = arr.get_unique().length;     // unique value count
 	var report;
 
 	// workflow: determine data type and summarise/report accordingly
-	if(n_uniques < 5){           // few uniques - factorised
+	if(n_uniques < 5){                           // few uniques - factorised
 		report = report_factors(headr, array);
 	}
-	else{                        // many uniques - continuous
-		if(n_numbers/n > .67){   // predominantly numeric
+	else{                                        // many uniques - continuous
+		if(n_numbers/n > .67){                   // predominantly numeric
 			report = report_stats(headr, array);
 		}
-		else{                    // predominantly non-numeric
+		else{                                    // predominantly non-numeric
 			report = report_many(headr, array);
 		}
 	}
@@ -245,15 +234,16 @@ function summariseRow(headr, array){
 }
 
 function summarise(d){
-	
+	// remove previous reporting
 	$( "#maincontainer" ).empty();
 	
 	// headline stats
 	$dom.append($.parseHTML( '<h4>-- ' + d[0].length + ' records / ' + d.length + ' fields --</h4><br/>' ));
 	
+	// append summaries to DOM
 	for(var i=0; i<d.length; i++){
-		// report.push(summariseRow(headers[i], d[i]));
-		var new_html = $.parseHTML( summariseRow(headers[i], d[i]) );
+		// report.push(summarise_row(headers[i], d[i]));
+		var new_html = $.parseHTML( summarise_row(headers[i], d[i]) );
 		$dom.append( new_html );
 	}
 }
