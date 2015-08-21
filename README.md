@@ -11,7 +11,7 @@
 
 3. update `config` file with ODGAggregate domain and access credentials
 
-4. update system Java if necessary - min v6 is required
+4. update system to minimum Java 6
 
 
 ### To run 
@@ -20,13 +20,9 @@
 
 1. cd into the ODKSummary directory
 
-2. `./get_odk_data.sh *{form_id}*` (the ODKAggregate form ref for the data you want)
+2. run `./initialise_ODKSummary.sh` (takes ~4 mins)
 
-3. update file `summarise.js` to open *{form_id.json}* (replace any '.' chars with '_')
-
-4. navigate browser to `http://yourdomain/ODKSummary`
-
-- *[step 2/3 processes to be automated..]*
+3. navigate browser to `http://yourdomain/ODKSummary`
 
 
 ### Background
