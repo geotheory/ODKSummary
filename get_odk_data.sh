@@ -27,6 +27,6 @@ dir=$(pwd)'/data'
 python csv2json.py $dir/$csvname $dir/$jsonname
 
 # update forms.json
-# python csv2json.py forms.csv > forms.json
+python csv2json.py forms.csv forms.json
 
 echo 'Done. For debugging see data/debug.log'
