@@ -1,15 +1,17 @@
-import json
+from collections import OrderedDict
 import sys
+import csv
+import json
 
-arr = []
+with open(sys.argv[1],'r') as f:
+	reader = csv.reader(f)
+	headerlist = next(reader)
+	csvlist = []
+	for row in reader:
+		d = OrderedDict()
+		for i, x in enumerate(row):
+			d[headerlist[i]] = x
+		csvlist.append(d)
 
-with open(sys.argv[1]) as f:
-	lines = f.read().splitlines()
-	for line in lines:
-		arr.append(line.split(','))
-
-f.close()
-
-output = json.dumps(arr, separators=(',',':'))
-
-print output
+with open(sys.argv[2],'w') as f:
+    json.dump(csvlist,f)
