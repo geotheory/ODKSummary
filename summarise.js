@@ -34,7 +34,7 @@ function get_array(cf_object, field){
   return arr;
 }
 
-// setup dropdown box based on available forms
+// setup dropdown box (based on available forms) for data import
 function setup_dropdown(){
 	$(document).ready(function(){ $("#odk_dropdown").change(on_select_change);});
 
