@@ -16,6 +16,23 @@ $(function(){
 	});
 });
 
+// date/time stuff
+function month(M){for(var i=0; i<12; i++) if(M==['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]) return i;}
+
+// e.g. to_date("28-Jul-2015") and then toLocaleDateString() to get back
+function to_date(x){
+  var mon = month(x.substring(3,6));
+  if(x.length > 12) return new Date(x.substring(7,11), mon, x.substring(0,2), x.substring(12,14), x.substring(15,17), x.substring(18,20));
+  else return new Date(x.substring(7,11), mon, x.substring(0,2));
+}
+
+// extract value array from cf object by field name
+function get_array(cf_object, field){
+  var d = cf_object.dimension(function(dat){return dat.total; }).top(cf_object.size());
+  var arr = [];
+  for(var i=0; i<cf_object.size(); i++) arr.push(d[i][field]);
+  return arr;
+}
 
 // setup dropdown box based on available forms
 function setup_dropdown(){
@@ -27,6 +44,15 @@ function setup_dropdown(){
 			// JSON data call
 			var file = 'data/' + replace_all(selected.val(), '[.]', '_') + '.json';
 			$.getJSON(file, function(d) {
+
+				// datify relevant fields
+				var datefields = ['Date','date','SubmissionDate','start','end'];
+				var headers = Object.keys(d[0]);
+				for(var i=0; i<d.length; i++) for(var j=0; j<headers.length; j++) if(datefields.indexOf(headers[j]) > -1) d[i][headers[j]] = to_date(d[i][headers[j]]);
+
+				console.log(d.length + ' data rows');
+				console.log("Headers:  " + Object.keys(d[0]).join());
+
 				// call main function
 				summarise(d);
 			});
@@ -43,10 +69,9 @@ function setup_dropdown(){
 // REPORTING FUNCTIONS
 
 function summarise(json){
-	d = crossfilter(json);
-
-	var n = d.groupAll().reduceCount().value();
-	console.log(n);
+	d0 = crossfilter(json); // permanent obj
+	d = crossfilter(json);  // working obj
+	
 }
 
 
