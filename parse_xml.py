@@ -1,3 +1,6 @@
+# Script to parse ODK Forms to return field labels and selection options in JSON format
+# Run by command line in format: "python parse_xml.py data/pathto/form.xml data/form.json"
+
 import elementtree.ElementTree
 from lxml import etree
 import re
@@ -10,7 +13,7 @@ xml = re.sub('>[ ]+<', '><', xml)
 
 tree = etree.XML(xml)
 
-
+# to numeric if possible
 def num(str):
   try:
     return int(str)
@@ -30,8 +33,8 @@ def get_items(obj):
     results[num(vals[i].text)] = labs[i+1].text
   return {labs[0].text: results}
 
+# example
 # get_items(tree.findall(".//{http://www.w3.org/2002/xforms}*[@ref]")[2])
-
 
 def get_label(tree, treestr):
   poss_matches = tree.findall(treestr)
