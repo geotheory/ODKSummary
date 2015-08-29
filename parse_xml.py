@@ -42,7 +42,10 @@ def get_label(tree, treestr):
   items = {}
   for i in range(len(poss_matches)):
     if poss_matches[i].attrib.values()[0] != 'field-list':
-      labels.append([poss_matches[i].attrib.values()[-1], poss_matches[i].getchildren()[0].text])
+      if len(poss_matches[i].getchildren()) > 0: # no child cases
+        labels.append([poss_matches[i].attrib.values()[-1], poss_matches[i].getchildren()[0].text])
+      else:
+        labels.append([poss_matches[i].attrib.values()[-1], None])
     item = get_items(poss_matches[i])
     if item != -1:
       items[item.keys()[0]] = item.values()
