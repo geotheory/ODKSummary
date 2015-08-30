@@ -12,12 +12,10 @@ find . -name "*.xml" -exec cp -v {} data/xml \; >/dev/null 2>&1
 rm data/xml/submission.xml
 
 # list all XML forms generated and copy to own directory
-
-while read p; do
-   cp $p ./data/xml; 
-done <./data/formslist
-
-for f in ./data/xml/*
+for f in data/xml/*.xml
 do
-	python parse_xml.py "$f" "$f".json
+	# rename files so eg URLs have no spaces
+	fn="${f//.xml/}"; fn="${fn// /_}"; fn="${fn//./_}".json
+	echo $f; echo $fn
+	python parse_xml.py "$f" "$fn"
 done

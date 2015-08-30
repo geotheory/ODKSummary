@@ -1,7 +1,7 @@
 
 // read in JSON file
 
-var forms, json;
+var forms, json, met, x;
 var $dom = $( "#maincontainer" );
 
 
@@ -39,22 +39,38 @@ function setup_dropdown(){
 	$(document).ready(function(){ $("#odk_dropdown").change(on_select_change);});
 
 	function on_select_change(){
+		d = d0 = j = met = undefined;
 		var selected = $("#odk_dropdown option:selected");		
 		if(selected.val() != 0){
-			// JSON data call
-			var file = 'data/' + replace_all(selected.val(), '[.]', '_') + '.json';
-			$.getJSON(file, function(d) {
-
+			// JSON data paths
+			var data = './data/' + replace_all(selected.val(), '[.]', '_') + '.json';
+			var meta = './data/xml/' + replace_all(selected.text(), '[. ]', '_') + '.json';
+			
+			$.getJSON(data, function(d) {
 				// datify relevant fields
-				var datefields = ['Date','date','SubmissionDate','start','end'];
-				var headers = Object.keys(d[0]);
-				for(var i=0; i<d.length; i++) for(var j=0; j<headers.length; j++) if(datefields.indexOf(headers[j]) > -1) d[i][headers[j]] = to_date(d[i][headers[j]]);
-
-				console.log(d.length + ' data rows');
-				console.log("Headers:  " + Object.keys(d[0]).join());
-
+				if(d.length > 0){
+					var datefields = ['Date','date','SubmissionDate','start','end'];
+					var headers = Object.keys(d[0]);
+					for(var i=0; i<d.length; i++) for(var j=0; j<headers.length; j++) {
+						if(datefields.indexOf(headers[j]) > -1) d[i][headers[j]] = to_date(d[i][headers[j]]);
+					}
+				}
+				
 				// call main function
 				summarise(d);
+
+				// read-in meta-data json
+				$.ajax({
+					url: meta,
+					type: "GET",
+					dataType: "json",
+					timeout: 2000,
+					success: function(response) { null; },
+					error: function(x, t, m) {
+						console.log('Ajax error: ' + t + '; ' + m);
+						alert("Meta data file not accessible!\n\nThis means the ODK Collect field descriptions and selection labels\nare unavailable. Instead the underlying field ID's will be displayed.");
+					}
+				});
 			});
 		}
 	}
@@ -69,9 +85,11 @@ function setup_dropdown(){
 // REPORTING FUNCTIONS
 
 function summarise(json){
+	// console.log('summarising');
 	d0 = crossfilter(json); // permanent obj
 	d = crossfilter(json);  // working obj
-	
+	j = json;
+	// console.log(typeof met);
 }
 
 
