@@ -38,17 +38,19 @@ def get_items(obj):
 
 def get_label(tree, treestr):
   poss_matches = tree.findall(treestr)
-  labels = []
+  labels = {}
   items = {}
   for i in range(len(poss_matches)):
-    if poss_matches[i].attrib.values()[0] != 'field-list':
-      if len(poss_matches[i].getchildren()) > 0: # no child cases
-        labels.append([poss_matches[i].attrib.values()[-1], poss_matches[i].getchildren()[0].text])
-      else:
-        labels.append([poss_matches[i].attrib.values()[-1], None])
-    item = get_items(poss_matches[i])
-    if item != -1:
-      items[item.keys()[0]] = item.values()
+    if len(poss_matches[i].attrib.values()) > 1:
+      if poss_matches[i].attrib.values()[0] != 'field-list':
+        shortname = re.findall('[._a-zA-Z0-9]+$', poss_matches[i].attrib.values()[-1])[0]
+        if len(poss_matches[i].getchildren()) > 0: # no child cases
+          labels[poss_matches[i].attrib.values()[-1]] = [shortname, poss_matches[i].getchildren()[0].text]
+        else:
+          labels[poss_matches[i].attrib.values()[-1]] = [shortname, shortname]
+      item = get_items(poss_matches[i])
+      if item != -1:
+        items[item.keys()[0]] = item.values()
   return {"labels": labels, "items": items}
 
 

@@ -1,7 +1,8 @@
 
 // read in JSON file
 
-var forms, json, met, x;
+var forms, json, met,
+	root_val, root_txt;
 var $dom = $( "#maincontainer" );
 
 
@@ -43,6 +44,8 @@ function setup_dropdown(){
 		var selected = $("#odk_dropdown option:selected");		
 		if(selected.val() != 0){
 			// JSON data paths
+			root_val = selected.val();  // for convenient console access
+			root_txt = selected.text(); // for convenient console access
 			var data = './data/' + replace_all(selected.val(), '[.]', '_') + '.json';
 			var meta = './data/xml/' + replace_all(selected.text(), '[. ]', '_') + '.json';
 			
@@ -65,7 +68,7 @@ function setup_dropdown(){
 					type: "GET",
 					dataType: "json",
 					timeout: 2000,
-					success: function(response) { null; },
+					success: function(response) { met = response; },
 					error: function(x, t, m) {
 						console.log('Ajax error: ' + t + '; ' + m);
 						alert("Meta data file not accessible!\n\nThis means the ODK Collect field descriptions and selection labels\nare unavailable. Instead the underlying field ID's will be displayed.");
@@ -85,11 +88,9 @@ function setup_dropdown(){
 // REPORTING FUNCTIONS
 
 function summarise(json){
-	// console.log('summarising');
 	d0 = crossfilter(json); // permanent obj
 	d = crossfilter(json);  // working obj
 	j = json;
-	// console.log(typeof met);
 }
 
 
