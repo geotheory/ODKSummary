@@ -68,10 +68,15 @@ function setup_dropdown(){
 					type: "GET",
 					dataType: "json",
 					timeout: 2000,
-					success: function(response) { met = response; },
+					success: function(response) {
+						met = response;
+
+						// label lookup dictionary
+
+					},
 					error: function(x, t, m) {
 						console.log('Ajax error: ' + t + '; ' + m);
-						alert("Meta data file not accessible!\n\nThis means the ODK Collect field descriptions and selection labels\nare unavailable. Instead the underlying field ID's will be displayed.");
+						alert("Sorry, meta data file is not accessible :(\n\nThis means the ODK Collect field descriptions and selection labels\nare unavailable. Instead the underlying field ID's will be displayed.");
 					}
 				});
 			});
