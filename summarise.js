@@ -44,9 +44,9 @@ function setup_dropdown(){
 		var selected = $("#odk_dropdown option:selected");		
 		if(selected.val() != 0){
 			// JSON data paths
-			root_val = selected.val();  // for convenient console access
-			root_txt = selected.text(); // for convenient console access
-			var data = './data/' + replace_all(selected.val(), '[.]', '_') + '.json';
+			root_val = replace_all(selected.val(), '-', '_');  // for convenient console access
+			root_txt = selected.text();                        // as above
+			var data = './data/' + replace_all(root_val, '[.]', '_') + '.json';
 			var meta = './data/xml/' + replace_all(selected.text(), '[. ]', '_') + '.json';
 			
 			$.getJSON(data, function(d) {
@@ -93,9 +93,66 @@ function setup_dropdown(){
 // REPORTING FUNCTIONS
 
 function summarise(json){
-	d0 = crossfilter(json); // permanent obj
-	d = crossfilter(json);  // working obj
+	// d0 = crossfilter(json); // permanent obj
+	// d = crossfilter(json);  // working obj
 	j = json;
+	drawGraphs(j);
+}
+
+
+function drawGraphs(d){
+
+	var age_chart = dc.barChart("#test");
+
+	// AGE HISTOGRAM
+
+	d.forEach(function(x) {
+	    x['DEMOGRAPHICS-PATIENT_AGE'] = +x['DEMOGRAPHICS-PATIENT_AGE'];
+	});
+
+	var ndx                 = crossfilter(d),
+	  ageDimension        = ndx.dimension(function(d) {return +d['DEMOGRAPHICS-PATIENT_AGE'];}),
+	  speedSumGroup       = ageDimension.group().reduceSum(function(d) {return 5*Math.round(d['DEMOGRAPHICS-PATIENT_AGE']/5);});
+
+	age_chart
+	.width(500)
+	.height(400)
+	.x(d3.scale.linear().domain([0,80]))
+	.brushOn(false)
+	.yAxisLabel("Frequency")
+	.dimension(ageDimension)
+	.group(speedSumGroup)
+	.on('renderlet', function(chart) {
+	    chart.selectAll('rect').on("click", function(d) {
+	        console.log("click!", d);
+	    });
+	});
+	age_chart.render();
+
+
+	// GENDER PIE
+
+	// var sex_chart = dc.pieChart("#test");
+
+	// var sexDimension  = ndx.dimension(function(d) {return d['DEMOGRAPHICS-PATIENT_GENDER'];})
+	//   speedSumGroup = sexDimension.group().reduceSum(function(d) {return d['DEMOGRAPHICS-PATIENT_GENDER'];});
+
+	// sex_chart
+	// .width(500)
+	// .height(400)
+	// .slicesCap(4)
+	// .innerRadius(100)
+	// .dimension(sexDimension)
+	// .group(speedSumGroup)
+	// .legend(dc.legend());
+
+	// sex_chart.render();
+
+}
+
+
+d3.csv(filename, function(error, experiments){
+
 }
 
 
