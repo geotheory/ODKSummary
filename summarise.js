@@ -143,7 +143,7 @@ function drawGraphs(d){
 	  //
 	age_chart
 	.width($('#agechart').width())
-	.height(300)
+	.height($('#sexchart').width()*.8)
 	.x(d3.scale.ordinal().domain( Array.apply(0, Array(18)).map(function(_,b) { return ''+(5 * ((b + 1)-1)); }) ))
 	.xUnits(dc.units.ordinal)
 	.brushOn(false)
@@ -165,9 +165,9 @@ function drawGraphs(d){
 
 	sex_chart
 	.width($('#sexchart').width())
-	.height(300)
+	.height($('#sexchart').width()*.7)
 	.slicesCap(4)
-	.innerRadius($('#sexchart').width()/4)
+	.innerRadius($('#sexchart').width()/6)
 	.dimension(sexDimension)
 	.group(sexCountGroup)
 	.legend(dc.legend());
@@ -185,7 +185,7 @@ function drawGraphs(d){
 
 	nat_chart
 	.width($('#natchart').width())
-	.height(300)
+	.height($('#sexchart').width()*.8)
 	.ordering(function(d) { return -d.value })
 	.dimension(natDimension)
 	.group(natCountGroup)
