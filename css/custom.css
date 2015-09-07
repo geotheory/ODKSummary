@@ -7,3 +7,12 @@
     padding: 10px 10px;
     text-align: center;
 }
+
+g .x.axis text {
+    text-anchor: end !important;
+    transform: rotate(-30deg);
+}
+
+#maincontainer  {
+	padding: 15px 0px;
+}

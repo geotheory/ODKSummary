@@ -5,7 +5,6 @@ var forms, json, met,
 	root_val, root_txt;
 var $dom = $( "#maincontainer" );
 
-
 // replace filename chars '.' with '_' - for some reason Briefcase changes these
 function replace_all(str, find, replace){ return str.replace(new RegExp(find, 'g'), replace) ;}
 
@@ -60,6 +59,10 @@ function setup_dropdown(){
 				}
 				
 				// call main function
+				$('#eventchart').append('<h4>EVENT</h4><h4>(boat interception)</h4>');
+				$('#agechart').append('<h4>AGE</h4>');
+				$('#natchart').append('<h4>NATIONALITY</h4>');
+				$('#sexchart').append('<h4>GENDER</h4>');
 				summarise(d);
 
 				// read-in meta-data json
@@ -92,67 +95,135 @@ function setup_dropdown(){
 
 // REPORTING FUNCTIONS
 
+var j;
+
 function summarise(json){
 	// d0 = crossfilter(json); // permanent obj
 	// d = crossfilter(json);  // working obj
 	j = json;
-	drawGraphs(j);
-}
-
-
-function drawGraphs(d){
-
-	var age_chart = dc.barChart("#test");
-
-	// AGE HISTOGRAM
-
-	d.forEach(function(x) {
+	j.forEach(function(x) {
 	    x['DEMOGRAPHICS-PATIENT_AGE'] = +x['DEMOGRAPHICS-PATIENT_AGE'];
 	});
 
-	var ndx                 = crossfilter(d),
-	  ageDimension        = ndx.dimension(function(d) {return +d['DEMOGRAPHICS-PATIENT_AGE'];}),
-	  speedSumGroup       = ageDimension.group().reduceSum(function(d) {return 5*Math.round(d['DEMOGRAPHICS-PATIENT_AGE']/5);});
+	var d = crossfilter(j);
 
+	// var filterdim = d.dimension(function(d){ return d['TRIP_INFORMATION-TRIP_NUMBER'] ;});
+	// var filtergroup = filterdim.group();
+	// var filtergroup_vals = [];
+	// filtergroup.top(Infinity).forEach(function(d){ filtergroup_vals.push(d.key);})
+	// console.log(filtergroup_vals);
+	// filtergroup_vals.forEach(function(d){ 
+	// 	var str = '<option value="' + d + '">' + d + '</option>';
+	// 	$('#odk_filter').append(str);
+	// });
+	// $('#odk_filter').on('change',function(e){
+	// 	var value = $('#odk_filter').val();
+	// 	filterdim.filter(value);
+	// 	dc.updateall();
+	// 	dc.clearall();
+
+	// })
+
+	drawGraphs(d);
+}
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+function drawGraphs(d){
+
+	var age_chart = dc.barChart("#agechart");
+
+	// AGE HISTOGRAM
+
+	var ndx               = d,
+	  ageDimension        = ndx.dimension(function(d) {return ''+(5*Math.floor(+d['DEMOGRAPHICS-PATIENT_AGE']/5));}),
+	  ageCountGroup       = ageDimension.group();
+	  //
 	age_chart
-	.width(500)
-	.height(400)
-	.x(d3.scale.linear().domain([0,80]))
+	.width($('#agechart').width())
+	.height(300)
+	.x(d3.scale.ordinal().domain( Array.apply(0, Array(18)).map(function(_,b) { return ''+(5 * ((b + 1)-1)); }) ))
+	.xUnits(dc.units.ordinal)
 	.brushOn(false)
 	.yAxisLabel("Frequency")
 	.dimension(ageDimension)
-	.group(speedSumGroup)
+	.group(ageCountGroup)
 	.on('renderlet', function(chart) {
 	    chart.selectAll('rect').on("click", function(d) {
 	        console.log("click!", d);
 	    });
 	});
-	age_chart.render();
 
 
 	// GENDER PIE
+	var sex_chart = dc.pieChart("#sexchart");
 
-	// var sex_chart = dc.pieChart("#test");
+	var sexDimension  = ndx.dimension(function(d) {return d['DEMOGRAPHICS-PATIENT_GENDER'];})
+	  sexCountGroup = sexDimension.group();
 
-	// var sexDimension  = ndx.dimension(function(d) {return d['DEMOGRAPHICS-PATIENT_GENDER'];})
-	//   speedSumGroup = sexDimension.group().reduceSum(function(d) {return d['DEMOGRAPHICS-PATIENT_GENDER'];});
-
-	// sex_chart
-	// .width(500)
-	// .height(400)
-	// .slicesCap(4)
-	// .innerRadius(100)
-	// .dimension(sexDimension)
-	// .group(speedSumGroup)
-	// .legend(dc.legend());
-
-	// sex_chart.render();
-
-}
+	sex_chart
+	.width($('#sexchart').width())
+	.height(300)
+	.slicesCap(4)
+	.innerRadius($('#sexchart').width()/4)
+	.dimension(sexDimension)
+	.group(sexCountGroup)
+	.legend(dc.legend());
 
 
-d3.csv(filename, function(error, experiments){
+	var nat_chart = dc.rowChart("#natchart");
 
+	var natDimension  = ndx.dimension(function(d) {return d['DEMOGRAPHICS-ORIGIN_COUNTRY'];})
+	  natCountGroup = natDimension.group();
+
+	natsum = natCountGroup.top(1000);
+	natlst = [];
+	for(var i=0; i< natsum.length; i++){ natlst.push(natsum[i].key);}
+	//console.log(natlst);
+
+	nat_chart
+	.width($('#natchart').width())
+	.height(300)
+	.ordering(function(d) { return -d.value })
+	.dimension(natDimension)
+	.group(natCountGroup)
+	.colors(['#1f77b4'])
+	.colorDomain([0,1])
+	.colorAccessor(function(d,i){
+        return i;
+    })
+	.on('renderlet', function(chart) {
+	    chart.selectAll('rect').on("click", function(d) {
+	        console.log("click!", d);
+	    });
+	});
+
+	var event_chart = dc.rowChart("#eventchart");
+
+	var eventDimension  = ndx.dimension(function(d) {return d['TRIP_INFORMATION-TRIP_NUMBER'];})
+	  eventCountGroup = eventDimension.group();
+
+	event_chart
+	.width($('#eventchart').width())
+	.height(120)
+	.ordering(function(d) { return -d.value })
+	.dimension(eventDimension)
+	.group(eventCountGroup)
+	.colors(['#1f77b4'])
+	.colorDomain([0,1])
+	.colorAccessor(function(d,i){
+        return i;
+    })
+	.on('renderlet', function(chart) {
+	    chart.selectAll('rect').on("click", function(d) {
+	        console.log("click!", d);
+	    });
+	});
+
+
+	dc.renderAll();
 }
 
 
