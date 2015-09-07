@@ -9,12 +9,9 @@ var $dom = $( "#maincontainer" );
 function replace_all(str, find, replace){ return str.replace(new RegExp(find, 'g'), replace) ;}
 
 // get list of available forms
-$(function(){
-	$.getJSON("/forms.json", function(jsdata) {
-		forms = jsdata;
-		setup_dropdown();
-	});
-});
+forms = [{"id": "Boat_Data_Form_1-0", "desc": "Boat Data Form 1.0"}];
+setup_dropdown();
+
 
 // date/time stuff
 function month(M){for(var i=0; i<12; i++) if(M==['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]) return i;}
