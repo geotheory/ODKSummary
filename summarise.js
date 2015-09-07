@@ -63,22 +63,22 @@ function setup_dropdown(){
 				summarise(d);
 
 				// read-in meta-data json
-				$.ajax({
-					url: meta,
-					type: "GET",
-					dataType: "json",
-					timeout: 2000,
-					success: function(response) {
-						met = response;
+				// $.ajax({
+				// 	url: meta,
+				// 	type: "GET",
+				// 	dataType: "json",
+				// 	timeout: 2000,
+				// 	success: function(response) {
+				// 		met = response;
 
-						// label lookup dictionary
+				// 		// label lookup dictionary
 
-					},
-					error: function(x, t, m) {
-						console.log('Ajax error: ' + t + '; ' + m);
-						alert("Sorry, meta data file is not accessible :(\n\nThis means the ODK Collect field descriptions and selection labels\nare unavailable. Instead the underlying field ID's will be displayed.");
-					}
-				});
+				// 	},
+				// 	error: function(x, t, m) {
+				// 		console.log('Ajax error: ' + t + '; ' + m);
+				// 		alert("Sorry, meta data file is not accessible :(\n\nThis means the ODK Collect field descriptions and selection labels\nare unavailable. Instead the underlying field ID's will be displayed.");
+				// 	}
+				// });
 			});
 		}
 	}
