@@ -1,0 +1,7 @@
+# For ODKSummary to extract data from ODK Aggregate server there must be a file called
+# 'config' in the ODKSummary root folder containing 3 lines as illustrated below.
+# The IP should reflect the full path to the Aggregate folder, including ports/subdirs.
+
+IP=$'full_odk_aggregate_url_or_ip'
+aggUser=$'username'
+aggPwd=$'password'
