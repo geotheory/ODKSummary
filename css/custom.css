@@ -16,3 +16,7 @@ g .x.axis text {
 #maincontainer  {
 	padding: 15px 0px;
 }
+
+td {
+	text-align: left;
+}

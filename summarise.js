@@ -55,11 +55,14 @@ function setup_dropdown(){
 					}
 				}
 				
-				// call main function
+				// append DOM elements
 				$('#eventchart').append('<h4>EVENT</h4><h4>(boat interception)</h4>');
 				$('#agechart').append('<h4>AGE</h4>');
 				$('#natchart').append('<h4>NATIONALITY</h4>');
 				$('#sexchart').append('<h4>GENDER</h4>');
+				$('#maincontainer').append("<div class='table_container' style='font: 12px sans-serif;'><div class='row'><div class='span12'><table class='table table-hover' id='dc-table-graph'><thead><tr class='header'><th>Event</th><th>Name</th><th>Age</th><th>Gender</th><th>Nationality</th></tr></thead></table></div></div></div>");
+				
+				// call main function
 				summarise(d);
 
 				// read-in meta-data json
@@ -137,8 +140,8 @@ function drawGraphs(d){
 	// AGE HISTOGRAM
 
 	var ndx               = d,
-	  ageDimension        = ndx.dimension(function(d) {return ''+(5*Math.floor(+d['DEMOGRAPHICS-PATIENT_AGE']/5));}),
-	  ageCountGroup       = ageDimension.group();
+		ageDimension        = ndx.dimension(function(d) {return ''+(5*Math.floor(+d['DEMOGRAPHICS-PATIENT_AGE']/5));}),
+		ageCountGroup       = ageDimension.group();
 	  //
 	age_chart
 	.width($('#agechart').width())
@@ -150,9 +153,9 @@ function drawGraphs(d){
 	.dimension(ageDimension)
 	.group(ageCountGroup)
 	.on('renderlet', function(chart) {
-	    chart.selectAll('rect').on("click", function(d) {
-	        console.log("click!", d);
-	    });
+		chart.selectAll('rect').on("click", function(d) {
+			console.log("click!", d);
+		});
 	});
 
 
@@ -160,7 +163,7 @@ function drawGraphs(d){
 	var sex_chart = dc.pieChart("#sexchart");
 
 	var sexDimension  = ndx.dimension(function(d) {return d['DEMOGRAPHICS-PATIENT_GENDER'];})
-	  sexCountGroup = sexDimension.group();
+		sexCountGroup = sexDimension.group();
 
 	sex_chart
 	.width(w)
@@ -175,7 +178,7 @@ function drawGraphs(d){
 	var nat_chart = dc.rowChart("#natchart");
 
 	var natDimension  = ndx.dimension(function(d) {return d['DEMOGRAPHICS-ORIGIN_COUNTRY'];})
-	  natCountGroup = natDimension.group();
+		natCountGroup = natDimension.group();
 
 	natsum = natCountGroup.top(1000);
 	natlst = [];
@@ -191,12 +194,12 @@ function drawGraphs(d){
 	.colors(['#1f77b4'])
 	.colorDomain([0,1])
 	.colorAccessor(function(d,i){
-        return i;
+    	return i;
     })
 	.on('renderlet', function(chart) {
-	    chart.selectAll('rect').on("click", function(d) {
-	        console.log("click!", d);
-	    });
+	chart.selectAll('rect').on("click", function(d) {
+		console.log("click!", d);
+	});
 	});
 
 	var event_chart = dc.rowChart("#eventchart");
@@ -216,11 +219,23 @@ function drawGraphs(d){
         return i;
     })
 	.on('renderlet', function(chart) {
-	    chart.selectAll('rect').on("click", function(d) {
-	        console.log("click!", d);
-	    });
+		chart.selectAll('rect').on("click", function(d) {
+			console.log("click!", d);
+		});
 	});
 
+
+	dc.dataTable("#dc-table-graph")
+	.dimension(eventDimension)
+	.group(function (d) { return ''; })
+	.size(650)
+	.columns([
+		function(d){ return d['TRIP_INFORMATION-TRIP_NUMBER']; },
+		function(d){ return d['DEMOGRAPHICS-PATIENT_NAME']; },
+		function(d){ return d['DEMOGRAPHICS-PATIENT_AGE']; },
+		function(d){ return d['DEMOGRAPHICS-PATIENT_GENDER']; },
+		function(d){ return d['DEMOGRAPHICS-ORIGIN_COUNTRY']; }
+	])
 
 	dc.renderAll();
 }
