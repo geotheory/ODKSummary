@@ -4,7 +4,7 @@
 }
 
 .starter-template {
-    padding: 10px 10px;
+    padding: 0px 0px;
     text-align: center;
 }
 
@@ -14,9 +14,21 @@ g .x.axis text {
 }
 
 #maincontainer  {
-	padding: 15px 0px;
+	padding: 5px 0px;
 }
 
 td {
 	text-align: left;
 }
+
+.dc-chart g.row text {fill: black;}
+
+h3 {
+	color: grey;
+}
+
+/*@media (min-width: 768px){
+    .navbar-header{ float: none;}
+    .navbar-toggle{ display: block;}
+    .navbar-collapse.collapse{ display: none !important;}
+}*/

@@ -1,9 +1,5 @@
-# ./get_odk_data.sh MHSurveyKAS15_v.8.1
-# ./get_odk_data.sh MOAS_OPD_v.7.23a
-# ./get_odk_data.sh MOAS_OPD_v.8.2a
-# ./get_odk_data.sh MOAS_Regtion_v.7.29
-# ./get_odk_data.sh MOAS_Regtion_v.7.23
-./get_odk_data.sh Boat_Data_Form_1-0
+./get_odk_data.sh MOAS_OPD_v_9_5
+./get_odk_data.sh MOAS_Registration_v_9_5
 
 # new folder for XML forms, and copy files there
 rm -rf ./data/xml
