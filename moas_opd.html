@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="web/favicon.ico">
 
-    <title>MOAS OPD</title>
+    <title>MSF-Data | MOAS OPD All</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -39,14 +39,23 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>                        
           </button>
-          <a class="navbar-brand" href="#">MOAS OPD | All</a>
+          <a class="navbar-brand" href="index.html">MSF-Data - OPD All</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li><a href="http://data.msf">Home</a></li>
+            <li class="dropdown">
+              <a href="./moas_reg.html" class="dropdown-toggle" data-toggle="dropdown">ODK Summary<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="./moas_opd.html">MOAS OPD - All data</a></li>
+                <li><a href="./moas_opd_today.html">MOAS OPD - Today's data</a></li>
+                <li><a href="./moas_opd_ref.html">MOAS OPD - Reference</a></li>
+                <li><a href="./moas_reg.html">MOAS Registration - All data</a></li>
+                <li><a href="./moas_reg_today.html">MOAS Registration - Today's data</a></li>
+                <li><a href="./moas_reg_ref.html">MOAS Registration - Reference</a></li>
+              </ul>
+            </li>
             <li><a href="../ODKAggregate">ODK Aggregate</a></li>
-            <li><a href="./moas_opd_today.html">MOAS OPD | Today</a></li>
-            <li><a href="./help.html">Help</a></li>
+            <li><a href="http://data.msf">Resources</a></li>
           </ul>
         </div>
       </div>
@@ -73,6 +82,31 @@
         </div>
       </div>
     </div><!-- /.container -->
+
+<script type="text/javascript">
+// dropdown menu on hover
+$(document).ready(function() {
+  function toggleNavbarMethod() {
+      if ($(window).width() > 768) {
+          $('.navbar .dropdown').on('mouseover', function(){
+              $('.dropdown-toggle', this).trigger('click'); 
+          }).on('mouseout', function(){
+              $('.dropdown-toggle', this).trigger('click').blur();
+          });
+      }
+      else {
+          $('.navbar .dropdown').off('mouseover').off('mouseout');
+      }
+  }
+
+   // toggle navbar hover
+      toggleNavbarMethod();
+      
+      // bind resize event
+      $(window).resize(toggleNavbarMethod);
+});
+</script>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
