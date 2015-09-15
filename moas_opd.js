@@ -173,7 +173,7 @@ function drawGraphs(d){
 	// GENDER PIE
 
 	var sex_chart = dc.pieChart("#sexchart");
-	var sexDimension  = ndx.dimension(function(d) {return ['M','F'][d['pat_dt-sex']];})
+	var sexDimension  = ndx.dimension(function(d) {return ['F','M'][d['pat_dt-sex']];})
 		sexCountGroup = sexDimension.group();
 
 	sex_chart
@@ -262,7 +262,7 @@ function drawGraphs(d){
 	.size(650)
 	.columns([
 		function(d){ return d['date']; },
-		function(d){ return ['Male','Female'][d['pat_dt-sex']]; },
+		function(d){ return ['Female','Male'][d['pat_dt-sex']]; },
 		function(d){ return (d['pat_dt-age_y'] + d['pat_dt-age_m']/12).toFixed(1).replace('.0',''); },
 		function(d){ return d['pat_dt-nat_ty']; },
 		function(d){ return d['morb_ties-morb']; }
