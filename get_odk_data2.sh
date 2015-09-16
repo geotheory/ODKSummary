@@ -12,6 +12,10 @@ python /var/lib/tomcat6/webapps/ODKSummary/csv2json.py /var/lib/tomcat6/webapps/
 python /var/lib/tomcat6/webapps/ODKSummary/csv2json.py /var/lib/tomcat6/webapps/ODKSummary/data/MOAS_Registration_v_9_5.csv /var/lib/tomcat6/webapps/ODKSummary/data/MOAS_Registration_v_9_5.json
 #python csv2json.py $dir/$csvnametoday $dir/$jsonnametoday
 
+# backup to SD card
+cp /var/lib/tomcat6/webapps/ODKSummary/data/MOAS_OPD_v_9_5.csv /home/edison/sd/
+cp /var/lib/tomcat6/webapps/ODKSummary/data/MOAS_Registration_v_9_5.csv /home/edison/sd/
+
 # update forms.json
 #python /var/lib/tomcat6/webapps/ODKSummary/csv2json.py /var/lib/tomcat6/webapps/ODKSummary/forms.csv /var/lib/tomcat6/webapps/ODKSummary/forms.json
 
