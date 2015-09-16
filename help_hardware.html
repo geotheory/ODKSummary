@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="web/favicon.ico">
 
-    <title>MSF-Data | Home</title>
+    <title>MSF-Data | Harware</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -66,24 +66,27 @@
 
     <div class="starter-template">
       <div id="maincontainer">
-        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-3"></div>
-        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
-        <img src="./img/Msf_logo.svg.png" width="150">
-        <h3>ODK Summary homepage</h3><br>
-        <p>Welcome to the world of data collection with OpenDataKit, made possible by the awesome Intel Edison mobile server.</p>
-        <ul>
-          <li><h4 align="left"><a href="./help_hardware.html">Get set up with the Intel Edison server (ODK Aggregate)</a></h4></li>
-          <li><h4 align="left"><a href="./help_odkcollect.html">Get set up with ODK Collect</a></h4></li>
-          <li><h4 align="left"><a href="./moas_opd.html">Explore MOAS OPD data that has been collected</a></h4></li>
-          <li><h4 align="left"><a href="./moas_reg.html">Explore MOAS Registration data that has been collected</a></h4></li>
-          <li><h4 align="left"><a href="../ODKAggregate">Download the raw data from ODK Aggregate (requires login)</a></h4></li>
-          <li><h4 align="left"><a href="http://data.msf/">Some useful resources (in development)</a></h4></li>
-        </ul>
-        <br>
-        <h4>Data protection</h4>
-        <p>The MSF data sharing policy is based on the principles of medical confidentiality, privacy, protection of sensitive data, equality among data users, promotion of health benefits to the greater population, sharing for the local benefit, intellectual property, collaborative partnership, and efficiency. This policy applies to all health data generated in MSF programs or sites, where MSF acts as a Custodian for such data. Please refer to the <a href="http://fieldresearch.msf.org/msf/bitstream/10144/306501/1/MSF%20data%20sharing%20policy%20final%20061213.pdf">MSF Data Sharing Policy</a> for more detailed information.</p>
+        <br/>
+        
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <h4>The Edison</h4>
+        <p>The device is composed of the Intel Edison processor, three Sparkfun 'blocks' - the <i>Base block</i> (connecting to the Edison), <i>Micro SD block</i> and <i>Battery block</i> (next to the battery), a 2000 mAh battery (for est. 10-15 hours use), 3 micro-USB sockets (2 in the Base block and 1 in the Battery block), and a Micro SD card.  It includes a WiFi router, for which the line-of-site range has been tested to 80 meters.  We're running this as a tiny server to collect data in the field.</p> 
+        <h4>Basic operation</h4>
+        <p><b>START UP</b> the device by flicking the 'charging' switch on in the Battery Block to 'on'. Blue LEDs in the Base Block and Battery block will light up.</p>
+        <p>To <b>TURN OFF</b> the device, push the 'power' button (a very small black button) in the Base Block and keep pressed for 12 seconds.  Now wait 60 seconds for the server to power down, and then flick the 'charging' switch off to disconnect the battery.<br/></p>
+        <p>To <b>CHARGE THE BATTERY</b>, set the Battery Block switch to 'charging'/'off' and connect a USB power source (charger, power pack, phone, tablet) to the Battery Block socket. A red LED shows it's charging, and will disappear when fully charged.  Charging won't power the system on.</p>
+        <p>The <b>SD CARD</b> backs up data collected in csv format in of a system failure.  An SD card (formatted as <i>ext4</i>) should be inserted when the system is disconnected from powerand it should mount automatically on boot-up.</p>
+        <p><b>TO CONNECT</b> as a user look for a WiFi network like <i>MSF_Data1</i> and connect with the password provided seperately.  Your device is speaking to the server.</p>
+        <p>A system administrator can <b>ACCESS THE SERVER</b> either over wifi with ssh or via USB with the `screen` app.  Instructions seperately.<i>
+
         </div>
-        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-2"></div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <img src="./img/SparkFun_Edison_Boards-16.jpg" style="width:100%; height:100%">
+        </div>
+
+        
+        
+
       </div> 
     </div>
 

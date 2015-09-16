@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="web/favicon.ico">
 
-    <title>MSF-Data | Home</title>
+    <title>MSF-Data | ODK Collect</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -66,24 +66,31 @@
 
     <div class="starter-template">
       <div id="maincontainer">
-        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-3"></div>
-        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
-        <img src="./img/Msf_logo.svg.png" width="150">
-        <h3>ODK Summary homepage</h3><br>
-        <p>Welcome to the world of data collection with OpenDataKit, made possible by the awesome Intel Edison mobile server.</p>
+        <br/>
+        
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <h4>OpenDataKit</h4>
+
+        <p>ODK is a mobile data collection system made up of two main components.  Firstly a customisable Android app for data collection in the field (<i>ODK Collect</i>) and secondly a server for collating records into a single database (<i>ODK Aggregate</i>).  ODK Collect will run on your phone/tablet, the data you collect will be sent to the mobile ODK Aggregate server, and you'll then be able to download and visualise it in the field with these pages (<i>ODK Summary</i>).</p>
+        <h4>Setting up ODK Collect</h4>
         <ul>
-          <li><h4 align="left"><a href="./help_hardware.html">Get set up with the Intel Edison server (ODK Aggregate)</a></h4></li>
-          <li><h4 align="left"><a href="./help_odkcollect.html">Get set up with ODK Collect</a></h4></li>
-          <li><h4 align="left"><a href="./moas_opd.html">Explore MOAS OPD data that has been collected</a></h4></li>
-          <li><h4 align="left"><a href="./moas_reg.html">Explore MOAS Registration data that has been collected</a></h4></li>
-          <li><h4 align="left"><a href="../ODKAggregate">Download the raw data from ODK Aggregate (requires login)</a></h4></li>
-          <li><h4 align="left"><a href="http://data.msf/">Some useful resources (in development)</a></h4></li>
+        <li><p>Download the <b>ODK Collect</b> app from the Google Play repository. For this you'll need an Internet connection.</p></li>
+        <li><p> Once downloaded set up the <b> network connection</b>. Make sure that the device is switched on (as shown in the <a href="./help_hardware.html">hardware setup page</a>). On your device, find the network named "MSF_Data1/2", and add the username and password.  
+        <li><p>Next we need to <b>configure ODK Collect</b> to speak to ODK Aggregate: open ODK Collect, go to <i>General Settings/Configure platform settings</i>, then enter the URL <u>http://data.msf:8080/ODKAggregate</u> and the designated username and password.</p></li>
+        <li><p>Back in <i>General settings </i> tick the option to <i>Auto send with Wi-Fi</i>.</p></li>
+        <li><p>Now <b>get the forms</b>.  In the main menu of ODK, go to <i>Get Blank Form</i>, select forms <i>MOAS OPD v.9.5</i> and <i>MOAS registration form v9.5</i> and download them. </p></li>
         </ul>
-        <br>
-        <h4>Data protection</h4>
-        <p>The MSF data sharing policy is based on the principles of medical confidentiality, privacy, protection of sensitive data, equality among data users, promotion of health benefits to the greater population, sharing for the local benefit, intellectual property, collaborative partnership, and efficiency. This policy applies to all health data generated in MSF programs or sites, where MSF acts as a Custodian for such data. Please refer to the <a href="http://fieldresearch.msf.org/msf/bitstream/10144/306501/1/MSF%20data%20sharing%20policy%20final%20061213.pdf">MSF Data Sharing Policy</a> for more detailed information.</p>
+        <h4>Collecting data</h4>
+        <p>You're ready to go. To <b> input data </b> select <u> Fill Blank Form</u> and complete it.  Swipe from right to left to move through the form or finish it.  Mark it as finalized and that's it - the record will be sent to the server.  If you need to de-select an option, long-press it till you get the option 'Remove response'.</p>
         </div>
-        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-2"></div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <img src="./img/odk-in-the-field.jpg" style="width:100%; height:100%">
+        </div>
+
+        
+        
+
       </div> 
     </div>
 

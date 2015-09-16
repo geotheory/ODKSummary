@@ -28,7 +28,7 @@ java -jar ODK_Briefcase_v1.4.5_Production.jar --form_id $origname --storage_dire
 
 # to json
 python csv2json.py $dir/$csvname $dir/$jsonname
-python csv2json.py $dir/$csvnametoday $dir/$jsonnametoday
+#python csv2json.py $dir/$csvnametoday $dir/$jsonnametoday
 
 # update forms.json
 python csv2json.py forms.csv forms.json

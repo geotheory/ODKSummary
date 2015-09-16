@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="web/favicon.ico">
 
-    <title>MSF Data | MOAS Reg Ref</title>
+    <title>MSF Data | MOAS Reg Reference</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -27,7 +27,7 @@
   <body>
 
     <!-- Bootstrap collapsable nav menu -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -35,7 +35,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>                        
           </button>
-          <a class="navbar-brand" href="./">MSF-Data - MOAS Reg Ref</a>
+          <a class="navbar-brand" href="./">MSF-Data - Home</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
@@ -51,7 +51,14 @@
               </ul>
             </li>
             <li><a href="../ODKAggregate">ODK Aggregate</a></li>
-            <li><a href="http://data.msf">Resources</a></li>
+            <li class="dropdown">
+              <a href="./moas_reg.html" class="dropdown-toggle" data-toggle="dropdown">Help<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="./help_hardware.html">The Intel Edison server</a></li>
+                <li><a href="./help_odkcollect.html">ODK Collect for Android</a></li>
+                <li><a href="http://data.msf">Resources</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>

@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="web/favicon.ico">
 
-    <title>MSF Data | MOAS OPD Ref</title>
+    <title>MSF Data | MOAS OPD Reference</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -27,7 +27,7 @@
   <body>
 
     <!-- Bootstrap collapsable nav menu -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -35,7 +35,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>                        
           </button>
-          <a class="navbar-brand" href="./">MSF-Data - MOAS OPD Ref</a>
+          <a class="navbar-brand" href="./">MSF-Data - Home</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
@@ -51,7 +51,14 @@
               </ul>
             </li>
             <li><a href="../ODKAggregate">ODK Aggregate</a></li>
-            <li><a href="http://data.msf">Resources</a></li>
+            <li class="dropdown">
+              <a href="./moas_reg.html" class="dropdown-toggle" data-toggle="dropdown">Help<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="./help_hardware.html">The Intel Edison server</a></li>
+                <li><a href="./help_odkcollect.html">ODK Collect for Android</a></li>
+                <li><a href="http://data.msf">Resources</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
@@ -59,8 +66,13 @@
 
     <div class="starter-template">
       <div id="maincontainer">
-        <br/>
-        <h3>MOAS OPD Reference - coming soon..</h3>
+        
+        <h3>MOAS OPD Reference</h3><br/>
+        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-3"></div>
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+        <p>Most data fields are fairly self explanatory.  The <i>Event ID</i> is a way to track which incident you are collecting data for - this should be the number of the incident that day.  To filter the data for the current incident you need to click on the bars to filter today's date <b>and</b> the current incident number.</p>
+        <p>If you need to download the data do so from ODK Aggregate.  If you download a csv file that will open up in Excel.  You'll notice the data fields don't contain the actual descriptions for e.g. nationality, but instead their respective codes.  Fear not for it is very easy to lookup the actual values using this <a href="./forms/moas_opd.xls">pre-prepared excel spreadsheet</a>.</p>
+        </div>
       </div> 
     </div>
 

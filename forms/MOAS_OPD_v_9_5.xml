@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <h:head>
+    <h:title>MOAS OPD v.9.5</h:title>
+    <model>
+      <instance>
+        <MOAS_OPD_v_9_5 id="MOAS_OPD_v_9_5">
+          <formhub>
+            <uuid/>
+          </formhub>
+          <deviceid/>
+          <start/>
+          <end/>
+          <pat_dt>
+            <rescue_no>1</rescue_no>
+            <sex/>
+            <age_y/>
+            <age_m/>
+            <nat_ty/>
+            <oth_nat_ty/>
+          </pat_dt>
+          <morb_ties>
+            <morb/>
+            <oth_morb/>
+          </morb_ties>
+          <meta>
+            <instanceID/>
+          </meta>
+        </MOAS_OPD_v_9_5>
+      </instance>
+      <bind jr:preload="property" jr:preloadParams="deviceid" nodeset="/MOAS_OPD_v_9_5/deviceid" type="string"/>
+      <bind jr:preload="timestamp" jr:preloadParams="start" nodeset="/MOAS_OPD_v_9_5/start" type="dateTime"/>
+      <bind jr:preload="timestamp" jr:preloadParams="end" nodeset="/MOAS_OPD_v_9_5/end" type="dateTime"/>
+      <bind nodeset="/MOAS_OPD_v_9_5/pat_dt/rescue_no" required="true()" type="select1"/>
+      <bind nodeset="/MOAS_OPD_v_9_5/pat_dt/sex" required="true()" type="select1"/>
+      <bind nodeset="/MOAS_OPD_v_9_5/pat_dt/age_y" required="true()" type="decimal"/>
+      <bind nodeset="/MOAS_OPD_v_9_5/pat_dt/age_m" type="decimal"/>
+      <bind nodeset="/MOAS_OPD_v_9_5/pat_dt/nat_ty" required="true()" type="select1"/>
+      <bind nodeset="/MOAS_OPD_v_9_5/pat_dt/oth_nat_ty" type="string"/>
+      <bind nodeset="/MOAS_OPD_v_9_5/morb_ties/morb" type="select"/>
+      <bind nodeset="/MOAS_OPD_v_9_5/morb_ties/oth_morb" type="string"/>
+      <bind calculate="concat('uuid:', uuid())" nodeset="/MOAS_OPD_v_9_5/meta/instanceID" readonly="true()" type="string"/>
+      <bind calculate="'e36b92b6fd634f7a837a93faea29765c'" nodeset="/MOAS_OPD_v_9_5/formhub/uuid" type="string"/>
+    </model>
+  </h:head>
+  <h:body>
+    <group appearance="field-list" ref="/MOAS_OPD_v_9_5/pat_dt">
+      <label>Patient data</label>
+      <select1 appearance="compact" ref="/MOAS_OPD_v_9_5/pat_dt/rescue_no">
+        <label>Rescue / incident number (today)</label>
+        <item>
+          <label>one</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>two</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>three</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>four</label>
+          <value>4</value>
+        </item>
+        <item>
+          <label>five</label>
+          <value>5</value>
+        </item>
+      </select1>
+      <select1 ref="/MOAS_OPD_v_9_5/pat_dt/sex">
+        <label>Sex</label>
+        <item>
+          <label>female</label>
+          <value>0</value>
+        </item>
+        <item>
+          <label>male</label>
+          <value>1</value>
+        </item>
+      </select1>
+      <input ref="/MOAS_OPD_v_9_5/pat_dt/age_y">
+        <label>Age (years)</label>
+      </input>
+      <input ref="/MOAS_OPD_v_9_5/pat_dt/age_m">
+        <label>Age (months)</label>
+      </input>
+      <select1 ref="/MOAS_OPD_v_9_5/pat_dt/nat_ty">
+        <label>Nationality</label>
+        <item>
+          <label>Afghanistan</label>
+          <value>AF</value>
+        </item>
+        <item>
+          <label>Algeria</label>
+          <value>DZ</value>
+        </item>
+        <item>
+          <label>Angola</label>
+          <value>AO</value>
+        </item>
+        <item>
+          <label>Benin</label>
+          <value>BJ</value>
+        </item>
+        <item>
+          <label>Botswana</label>
+          <value>BW</value>
+        </item>
+        <item>
+          <label>Burkina Faso</label>
+          <value>BF</value>
+        </item>
+        <item>
+          <label>Burundi</label>
+          <value>BI</value>
+        </item>
+        <item>
+          <label>Cabo Verde</label>
+          <value>CV</value>
+        </item>
+        <item>
+          <label>Cameroon</label>
+          <value>CM</value>
+        </item>
+        <item>
+          <label>Central African Republic</label>
+          <value>CF</value>
+        </item>
+        <item>
+          <label>Chad</label>
+          <value>TD</value>
+        </item>
+        <item>
+          <label>Comoros</label>
+          <value>KM</value>
+        </item>
+        <item>
+          <label>Congo, Democratic Republic of the</label>
+          <value>CD</value>
+        </item>
+        <item>
+          <label>Congo, Republic of the</label>
+          <value>CG</value>
+        </item>
+        <item>
+          <label>Cote d'Ivoire</label>
+          <value>CI</value>
+        </item>
+        <item>
+          <label>Djibouti</label>
+          <value>DJ</value>
+        </item>
+        <item>
+          <label>Egypt</label>
+          <value>EG</value>
+        </item>
+        <item>
+          <label>Equatorial Guinea</label>
+          <value>GQ</value>
+        </item>
+        <item>
+          <label>Eritrea</label>
+          <value>ER</value>
+        </item>
+        <item>
+          <label>Ethiopia</label>
+          <value>ET</value>
+        </item>
+        <item>
+          <label>Gabon</label>
+          <value>GA</value>
+        </item>
+        <item>
+          <label>Gambia</label>
+          <value>GM</value>
+        </item>
+        <item>
+          <label>Ghana</label>
+          <value>GH</value>
+        </item>
+        <item>
+          <label>Guinea</label>
+          <value>GN</value>
+        </item>
+        <item>
+          <label>Guinea-Bissau</label>
+          <value>GW</value>
+        </item>
+        <item>
+          <label>Iran</label>
+          <value>IR</value>
+        </item>
+        <item>
+          <label>Iraq</label>
+          <value>IQ</value>
+        </item>
+        <item>
+          <label>Jordan</label>
+          <value>JO</value>
+        </item>
+        <item>
+          <label>Kenya</label>
+          <value>KE</value>
+        </item>
+        <item>
+          <label>Lebanon</label>
+          <value>LB</value>
+        </item>
+        <item>
+          <label>Lesotho</label>
+          <value>LS</value>
+        </item>
+        <item>
+          <label>Liberia</label>
+          <value>LR</value>
+        </item>
+        <item>
+          <label>Libya</label>
+          <value>LY</value>
+        </item>
+        <item>
+          <label>Madagascar</label>
+          <value>MG</value>
+        </item>
+        <item>
+          <label>Malawi</label>
+          <value>MW</value>
+        </item>
+        <item>
+          <label>Mali</label>
+          <value>ML</value>
+        </item>
+        <item>
+          <label>Mauritania</label>
+          <value>MR</value>
+        </item>
+        <item>
+          <label>Mauritius</label>
+          <value>MU</value>
+        </item>
+        <item>
+          <label>Morocco</label>
+          <value>MA</value>
+        </item>
+        <item>
+          <label>Mozambique</label>
+          <value>MZ</value>
+        </item>
+        <item>
+          <label>Namibia</label>
+          <value>NA</value>
+        </item>
+        <item>
+          <label>Niger</label>
+          <value>NE</value>
+        </item>
+        <item>
+          <label>Nigeria</label>
+          <value>NG</value>
+        </item>
+        <item>
+          <label>Rwanda</label>
+          <value>RW</value>
+        </item>
+        <item>
+          <label>Sao Tome and Principe</label>
+          <value>ST</value>
+        </item>
+        <item>
+          <label>Senegal</label>
+          <value>SN</value>
+        </item>
+        <item>
+          <label>Sierra Leone</label>
+          <value>SL</value>
+        </item>
+        <item>
+          <label>Somalia</label>
+          <value>SO</value>
+        </item>
+        <item>
+          <label>South Africa</label>
+          <value>ZA</value>
+        </item>
+        <item>
+          <label>South Sudan</label>
+          <value>SS</value>
+        </item>
+        <item>
+          <label>Sudan</label>
+          <value>SD</value>
+        </item>
+        <item>
+          <label>Swaziland</label>
+          <value>SZ</value>
+        </item>
+        <item>
+          <label>Syria</label>
+          <value>SY</value>
+        </item>
+        <item>
+          <label>Tanzania</label>
+          <value>TZ</value>
+        </item>
+        <item>
+          <label>Togo</label>
+          <value>TG</value>
+        </item>
+        <item>
+          <label>Tunisia</label>
+          <value>TN</value>
+        </item>
+        <item>
+          <label>Uganda</label>
+          <value>UG</value>
+        </item>
+        <item>
+          <label>Yemen</label>
+          <value>YE</value>
+        </item>
+        <item>
+          <label>Zambia</label>
+          <value>ZM</value>
+        </item>
+        <item>
+          <label>Zimbabwe</label>
+          <value>ZW</value>
+        </item>
+        <item>
+          <label>Other</label>
+          <value>0</value>
+        </item>
+      </select1>
+      <input ref="/MOAS_OPD_v_9_5/pat_dt/oth_nat_ty">
+        <label>Please add other nationality not covered above</label>
+      </input>
+    </group>
+    <group appearance="field-list" ref="/MOAS_OPD_v_9_5/morb_ties">
+      <label>Morbitities</label>
+      <select appearance="compact" ref="/MOAS_OPD_v_9_5/morb_ties/morb">
+        <label>Select disease(s)</label>
+        <hint>You can select multiple</hint>
+        <item>
+          <label>motion sickness</label>
+          <value>26</value>
+        </item>
+        <item>
+          <label>simple head/body ache</label>
+          <value>28</value>
+        </item>
+        <item>
+          <label>skin problem</label>
+          <value>25</value>
+        </item>
+        <item>
+          <label>acute Upper Respiratory Tract Infection</label>
+          <value>7</value>
+        </item>
+        <item>
+          <label>Acute Lower Respiratory Tract Infection</label>
+          <value>8</value>
+        </item>
+        <item>
+          <label>Eye problem</label>
+          <value>17</value>
+        </item>
+        <item>
+          <label>Severe Sun burn/heat related injury</label>
+          <value>35</value>
+        </item>
+        <item>
+          <label>Trauma non violent</label>
+          <value>30</value>
+        </item>
+        <item>
+          <label>Trauma violence related</label>
+          <value>24</value>
+        </item>
+        <item>
+          <label>Chemical burn</label>
+          <value>34</value>
+        </item>
+        <item>
+          <label>Diesel/gasoline exposure</label>
+          <value>33</value>
+        </item>
+        <item>
+          <label>Near drowning</label>
+          <value>31</value>
+        </item>
+        <item>
+          <label>Hypothermia</label>
+          <value>29</value>
+        </item>
+        <item>
+          <label>Gynecological consultation</label>
+          <value>18</value>
+        </item>
+        <item>
+          <label>Pregnancy related consultation</label>
+          <value>27</value>
+        </item>
+        <item>
+          <label>Severe acute diarrhea</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>Chronic disease</label>
+          <value>21</value>
+        </item>
+        <item>
+          <label>Severe psychiatric disorder</label>
+          <value>23</value>
+        </item>
+        <item>
+          <label>Urinary tract infection</label>
+          <value>16</value>
+        </item>
+        <item>
+          <label>Suspected Meningitis</label>
+          <value>10</value>
+        </item>
+        <item>
+          <label>Suspected Tuberculosis</label>
+          <value>9</value>
+        </item>
+        <item>
+          <label>Malaria(confirmed)</label>
+          <value>5</value>
+        </item>
+        <item>
+          <label>Heat exhaustion</label>
+          <value>32</value>
+        </item>
+        <item>
+          <label>Acute bloody diarrhoea</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>Fever without identified cause</label>
+          <value>4</value>
+        </item>
+      </select>
+      <input ref="/MOAS_OPD_v_9_5/morb_ties/oth_morb">
+        <label>Please add any other info not covered already</label>
+      </input>
+    </group>
+  </h:body>
+</h:html>
