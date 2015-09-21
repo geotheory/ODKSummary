@@ -10,7 +10,7 @@ var $dom = $( "#maincontainer" );
 function replace_all(str, find, replace){ return str.replace(new RegExp(find, 'g'), replace) ;}
 
 // date/time stuff
-function month(M){for(var i=0; i<12; i++) if(M==['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]) return i;}
+function month(M){for(var i=0; i<12; i++) if(M==['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]) return (1+i);}
 
 // e.g. to_date("28-Jul-2015") and then toLocaleDateString() to get back
 function to_date(x){

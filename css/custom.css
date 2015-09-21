@@ -31,6 +31,11 @@ p{
 	text-align: left;
 }
 
+g text {
+  padding-bottom: 100px;
+  margin-bottom: 100px;
+}
+
 /* Large desktop */
 /*@media (min-width: 1200px) { ... }*/
  
