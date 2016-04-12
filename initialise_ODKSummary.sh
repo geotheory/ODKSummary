@@ -1,7 +1,7 @@
 #!/bin/bash
 
-./get_odk_data.sh MOAS_OPD_v_9_5
-./get_odk_data.sh MOAS_Registration_v_9_5
+./get_odk_data.sh _01_Rescued_People_Data_Form_0-1
+./get_odk_data.sh _02_Rescued_Vessel_Details_0-1
 
 # new folder for XML forms, and copy files there
 rm -rf ./data/xml

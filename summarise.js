@@ -102,7 +102,7 @@ function summarise(json){
 	// d = crossfilter(json);  // working obj
 	j = json;
 	j.forEach(function(x) {
-	    x['DEMOGRAPHICS-PATIENT_AGE'] = +x['DEMOGRAPHICS-PATIENT_AGE'];
+	    x['DETAILS-TRIP_NUMBER'] = +x['DETAILS-TRIP_NUMBER'];
 	});
 
 	var d = crossfilter(j);

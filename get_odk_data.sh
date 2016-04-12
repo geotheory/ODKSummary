@@ -18,7 +18,7 @@ jsonnametoday=${jsonname//.json/$"_today.json"};
 dir=$(pwd)'/data'
 
 # get ODKAggregate domain and credentials
-. config
+. config.info
 
 # Run Briefcase-Aggregate API and convert resulting CML to CSV
 java -jar ODK_Briefcase_v1.4.5_Production.jar --form_id $origname --storage_directory $dir --aggregate_url $IP --odk_username $aggUser --odk_password $aggPwd --export_directory $dir --export_filename $csvname --overwrite_csv_export --exclude_media_export > $dir'/debug.log' 2>&1;
