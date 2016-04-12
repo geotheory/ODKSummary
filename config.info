@@ -2,6 +2,6 @@
 # 'config' in the ODKSummary root folder containing 3 lines as illustrated below.
 # The IP should reflect the full path to the Aggregate folder, including ports/subdirs.
 
-IP=$'full_odk_aggregate_url_or_ip'
-aggUser=$'username'
-aggPwd=$'password'
+IP=$'http://mm:8080/ODKAggregate'
+aggUser=$'surveyor'
+aggPwd=$'all4one'

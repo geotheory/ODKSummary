@@ -10,7 +10,7 @@ function replace_all(str, find, replace){ return str.replace(new RegExp(find, 'g
 
 // get list of available forms
 $(function(){
-	$.getJSON("/forms.json", function(jsdata) {
+	$.getJSON("/ODKSummary/forms.json", function(jsdata) {
 		forms = jsdata;
 		setup_dropdown();
 	});
@@ -46,7 +46,7 @@ function setup_dropdown(){
 			root_val = replace_all(selected.val(), '-', '_');  // for convenient console access
 			root_txt = selected.text();                        // as above
 			var data = './data/' + replace_all(root_val, '[.]', '_') + '.json';
-			var meta = './data/xml/' + replace_all(selected.text(), '[. ]', '_') + '.json';
+			//var meta = './data/xml/' + replace_all(selected.text(), '[. ]', '_') + '.json';
 			
 			$.getJSON(data, function(d) {
 				// datify relevant fields
@@ -66,22 +66,22 @@ function setup_dropdown(){
 				summarise(d);
 
 				// read-in meta-data json
-				$.ajax({
-					url: meta,
-					type: "GET",
-					dataType: "json",
-					timeout: 2000,
-					success: function(response) {
-						met = response;
+				// $.ajax({
+				// 	url: meta,
+				// 	type: "GET",
+				// 	dataType: "json",
+				// 	timeout: 2000,
+				// 	success: function(response) {
+				// 		met = response;
 
-						// label lookup dictionary
+				// 		// label lookup dictionary
 
-					},
-					error: function(x, t, m) {
-						console.log('Ajax error: ' + t + '; ' + m);
-						alert("Sorry, meta data file is not accessible :(\n\nThis means the ODK Collect field descriptions and selection labels\nare unavailable. Instead the underlying field ID's will be displayed.");
-					}
-				});
+				// 	},
+				// 	error: function(x, t, m) {
+				// 		console.log('Ajax error: ' + t + '; ' + m);
+				// 		alert("Sorry, meta data file is not accessible :(\n\nThis means the ODK Collect field descriptions and selection labels\nare unavailable. Instead the underlying field ID's will be displayed.");
+				// 	}
+				// });
 			});
 		}
 	}
@@ -102,7 +102,7 @@ function summarise(json){
 	// d = crossfilter(json);  // working obj
 	j = json;
 	j.forEach(function(x) {
-	    x['DEMOGRAPHICS-PATIENT_AGE'] = +x['DEMOGRAPHICS-PATIENT_AGE'];
+	    x['DETAILS-TRIP_NUMBER'] = +x['DETAILS-TRIP_NUMBER'];
 	});
 
 	var d = crossfilter(j);
@@ -133,28 +133,28 @@ function onlyUnique(value, index, self) {
 
 function drawGraphs(d){
 
-	var age_chart = dc.barChart("#agechart");
+	// var age_chart = dc.barChart("#agechart");
 
-	// AGE HISTOGRAM
+	// // AGE HISTOGRAM
 
-	var ndx               = d,
-	  ageDimension        = ndx.dimension(function(d) {return ''+(5*Math.floor(+d['DEMOGRAPHICS-PATIENT_AGE']/5));}),
-	  ageCountGroup       = ageDimension.group();
-	  //
-	age_chart
-	.width($('#agechart').width())
-	.height($('#sexchart').width()*.8)
-	.x(d3.scale.ordinal().domain( Array.apply(0, Array(18)).map(function(_,b) { return ''+(5 * ((b + 1)-1)); }) ))
-	.xUnits(dc.units.ordinal)
-	.brushOn(false)
-	.yAxisLabel("Frequency")
-	.dimension(ageDimension)
-	.group(ageCountGroup)
-	.on('renderlet', function(chart) {
-	    chart.selectAll('rect').on("click", function(d) {
-	        console.log("click!", d);
-	    });
-	});
+	 var ndx               = d;
+	//   ageDimension        = ndx.dimension(function(d) {return ''+(5*Math.floor(+d['DEMOGRAPHICS-PATIENT_AGE']/5));}),
+	//   ageCountGroup       = ageDimension.group();
+	//   //
+	// age_chart
+	// .width($('#agechart').width())
+	// .height($('#sexchart').width()*.8)
+	// .x(d3.scale.ordinal().domain( Array.apply(0, Array(18)).map(function(_,b) { return ''+(5 * ((b + 1)-1)); }) ))
+	// .xUnits(dc.units.ordinal)
+	// .brushOn(false)
+	// .yAxisLabel("Frequency")
+	// .dimension(ageDimension)
+	// .group(ageCountGroup)
+	// .on('renderlet', function(chart) {
+	//     chart.selectAll('rect').on("click", function(d) {
+	//         console.log("click!", d);
+	//     });
+	// });
 
 
 	// GENDER PIE
@@ -173,54 +173,54 @@ function drawGraphs(d){
 	.legend(dc.legend());
 
 
-	var nat_chart = dc.rowChart("#natchart");
+	// var nat_chart = dc.rowChart("#natchart");
 
-	var natDimension  = ndx.dimension(function(d) {return d['DEMOGRAPHICS-ORIGIN_COUNTRY'];})
-	  natCountGroup = natDimension.group();
+	// var natDimension  = ndx.dimension(function(d) {return d['DEMOGRAPHICS-ORIGIN_COUNTRY'];})
+	//   natCountGroup = natDimension.group();
 
-	natsum = natCountGroup.top(1000);
-	natlst = [];
-	for(var i=0; i< natsum.length; i++){ natlst.push(natsum[i].key);}
-	//console.log(natlst);
+	// natsum = natCountGroup.top(1000);
+	// natlst = [];
+	// for(var i=0; i< natsum.length; i++){ natlst.push(natsum[i].key);}
+	// //console.log(natlst);
 
-	nat_chart
-	.width($('#natchart').width())
-	.height($('#sexchart').width()*.8)
-	.ordering(function(d) { return -d.value })
-	.dimension(natDimension)
-	.group(natCountGroup)
-	.colors(['#1f77b4'])
-	.colorDomain([0,1])
-	.colorAccessor(function(d,i){
-        return i;
-    })
-	.on('renderlet', function(chart) {
-	    chart.selectAll('rect').on("click", function(d) {
-	        console.log("click!", d);
-	    });
-	});
+	// nat_chart
+	// .width($('#natchart').width())
+	// .height($('#sexchart').width()*.8)
+	// .ordering(function(d) { return -d.value })
+	// .dimension(natDimension)
+	// .group(natCountGroup)
+	// .colors(['#1f77b4'])
+	// .colorDomain([0,1])
+	// .colorAccessor(function(d,i){
+ //        return i;
+ //    })
+	// .on('renderlet', function(chart) {
+	//     chart.selectAll('rect').on("click", function(d) {
+	//         console.log("click!", d);
+	//     });
+	// });
 
-	var event_chart = dc.rowChart("#eventchart");
+	// var event_chart = dc.rowChart("#eventchart");
 
-	var eventDimension  = ndx.dimension(function(d) {return d['TRIP_INFORMATION-TRIP_NUMBER'];})
-	  eventCountGroup = eventDimension.group();
+	// var eventDimension  = ndx.dimension(function(d) {return d['TRIP_INFORMATION-TRIP_NUMBER'];})
+	//   eventCountGroup = eventDimension.group();
 
-	event_chart
-	.width($('#eventchart').width())
-	.height(120)
-	.ordering(function(d) { return -d.value })
-	.dimension(eventDimension)
-	.group(eventCountGroup)
-	.colors(['#1f77b4'])
-	.colorDomain([0,1])
-	.colorAccessor(function(d,i){
-        return i;
-    })
-	.on('renderlet', function(chart) {
-	    chart.selectAll('rect').on("click", function(d) {
-	        console.log("click!", d);
-	    });
-	});
+	// event_chart
+	// .width($('#eventchart').width())
+	// .height(120)
+	// .ordering(function(d) { return -d.value })
+	// .dimension(eventDimension)
+	// .group(eventCountGroup)
+	// .colors(['#1f77b4'])
+	// .colorDomain([0,1])
+	// .colorAccessor(function(d,i){
+ //        return i;
+ //    })
+	// .on('renderlet', function(chart) {
+	//     chart.selectAll('rect').on("click", function(d) {
+	//         console.log("click!", d);
+	//     });
+	// });
 
 
 	dc.renderAll();

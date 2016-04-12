@@ -1,7 +1,7 @@
 # Script to parse ODK Forms to return field labels and selection options in JSON format
 # Run by command line in format: "python parse_xml.py data/pathto/form.xml data/form.json"
 
-import elementtree.ElementTree
+from xml.etree.ElementTree import ElementTree # updated
 from lxml import etree
 import re
 import json
