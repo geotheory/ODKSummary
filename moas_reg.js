@@ -25,7 +25,7 @@ var age = {"<1": "Less than 1 year", "1-4": "1-4 years", "5-12": "5-12 years", "
 var vul = {"": "", "VISABLY_DISABLED": "Visibly disabled", "INJURED": "Injured", "ILL": "Acute illness", "UNACCOMPANIED_MINOR": "Unaccompanied minor", "PREGNANT": "Pregnant", "SINGLE_FEMALE": "A single female traveller"};
 
 
-$.getJSON("./data/_01_Rescued_People_Data_Form_0_1.json", function(d) {
+$.getJSON("./data/rescued_people.json", function(d) {
 	// datify relevant fields
 	if(d.length > 0){
 		var datefields = ['SubmissionDate','SURVEY_START_TIME','SURVEY_END_TIME'];
@@ -37,12 +37,12 @@ $.getJSON("./data/_01_Rescued_People_Data_Form_0_1.json", function(d) {
 	
 	// append DOM elements
 	$('#datechart').append('<h4>Date</h4>');
-	$('#eventchart').append('<h4>Event ID</h4>');
+	$('#eventchart').append('<h4>Event number (that day)</h4>');
 	$('#agechart').append('<h4>Age</h4>');
 	$('#natchart').append('<h4>Nationality</h4>');
 	$('#sexchart').append('<h4>Gender</h4>');
 	$('#vulchart').append('<h4>Vulnerability</h4>');
-	$('#maincontainer').append("<div class='table_container' style='font: 12px sans-serif;'><div class='row'><div class='span12'><table class='table table-hover' id='dc-table-graph'><thead><tr class='header'><th class='data-table-col' data-col='SURVEY_END_TIME'>Submitted</th><th class='data-table-col' data-col='gender'>gender</th><th class='data-table-col' data-col='age'>Age</th><th class='data-table-col' data-col='country'>Nationality</th><th class='data-table-col' data-col='vulnerability_str'>Vulnerability</th></tr></thead></table></div></div></div>");
+	$('#maincontainer').append("<div class='table_container' style='font: 12px sans-serif;'><div class='row'><div class='span12'><table class='table table-hover' id='dc-table-graph'><thead><tr class='header'><th class='data-table-col' data-col='SURVEY_END_TIME'>Submitted</th><th class='data-table-col' data-col='gender'>Gender</th><th class='data-table-col' data-col='age'>Age</th><th class='data-table-col' data-col='country'>Nationality</th><th class='data-table-col' data-col='vulnerability_str'>Vulnerability</th></tr></thead></table></div></div></div>");
 	
 	// call main function
 	summarise(d);
@@ -51,7 +51,7 @@ $.getJSON("./data/_01_Rescued_People_Data_Form_0_1.json", function(d) {
 
 // REPORTING FUNCTIONS
 
-var j;
+var j, xx, datchart;
 
 function summarise(json){
 
@@ -77,6 +77,7 @@ function summarise(json){
 	var date_chart = dc.barChart("#datechart");
 	var dateDimension = cf.dimension(function(d) {return d.date;})
 	  	dateCountGroup = dateDimension.group();
+	xx = dateCountGroup;
 
 	date_chart
 	.dimension(dateDimension)
@@ -85,17 +86,37 @@ function summarise(json){
 	//.x(d3.scale.linear().domain( dateCountGroup.order() ))
 	.xUnits(dc.units.ordinal)
 	.width($('#datechart').width())
+	.margins({ top: 10, left: 30, right: 10, bottom: 80 })
 	.height(Math.max(200, w*.5))
 	.brushOn(false)
 	//.elasticY(true)
 	.yAxisLabel("Count")
-	.on('renderlet', function(chart) {
-		chart.selectAll('rect').on("click", function(d) {
-			console.log("click!", d);
-		});
-	})
+	// .on('renderlet', function(chart) {
+	// 	chart.selectAll('rect').on("click", function(d) {
+	// 		console.log("click!", d);
+	// 	});
+	// })
 	.yAxis().ticks(5);
 
+	datchart = date_chart;
+
+	date_chart.on("renderlet", function(d){
+		var gLabelsData = date_chart.select(".chart-body")
+			.selectAll("text.selection_total").data(date_chart.selectAll(".bar")[0]);
+		gLabelsData.exit().remove(); //Remove unused elements
+		gLabelsData.enter().append("text") //Add new elements
+		gLabelsData
+			.attr('text-anchor', 'middle')
+			.attr('fill', 'black')
+			.attr("class", "selection_total")
+			.text(function(d){
+				console.log(d3.select(d).data()[0]);
+				console.log(d.getAttribute('x') );
+				return d3.select(d).data()[0].data.value
+			})
+			.attr('x', function(d){ return +d.getAttribute('x') + (d.getAttribute('width')/2); })
+			.attr('y', function(d){ return +d.getAttribute('y') + 15; })
+	});
 
 	//---------------------------------------------------------------------------
 	// EVENT CHART
@@ -133,6 +154,7 @@ function summarise(json){
 	.height(Math.max(180, w*.5))
 	.x(d3.scale.ordinal().domain(["<1","1-4","5-12","13-17","18-34","35-49","50+"])) 
 	.xUnits(dc.units.ordinal)
+	.margins({ top: 10, left: 30, right: 10, bottom: 40 })
 	.brushOn(false)
 	.yAxisLabel("Frequency")
 	.dimension(ageDimension)

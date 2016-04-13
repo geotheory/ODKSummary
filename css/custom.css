@@ -8,9 +8,41 @@
     text-align: center;
 }
 
+g text {
+  padding-bottom: 100px;
+  margin-bottom: 100px;
+  font-size: 1.1em; /*labels*/
+}
+
+/*x  axis labels */
 g .x.axis text {
     text-anchor: end !important;
-    transform: rotate(-30deg);
+    transform: rotate(-60deg);
+    font-size: 1em;
+}
+
+/* y axis labels */
+g .y.axis text {
+    text-anchor: end !important;
+    font-size: 1em;
+}
+
+/* bar labels */
+.dc-chart g.row text {
+  font-size: 1.1em;
+  fill: black;
+  cursor: pointer;
+}
+
+/* pie labels */
+.dc-chart text.pie-slice {
+  font-size: 1.1em;
+  fill: black;
+}
+
+/*space for rotated labels */
+.dc-chart svg {
+  overflow: visible
 }
 
 #maincontainer  {
@@ -19,9 +51,13 @@ g .x.axis text {
 
 td {
 	text-align: left;
+  font-size: 1.2em;
 }
 
-.dc-chart g.row text {fill: black;}
+th.data-table-col {
+  font-size: 1.3em;
+  cursor: pointer;
+}
 
 h3 {
 	color: grey;
@@ -31,10 +67,6 @@ p{
 	text-align: left;
 }
 
-g text {
-  padding-bottom: 100px;
-  margin-bottom: 100px;
-}
 
 /* Large desktop */
 /*@media (min-width: 1200px) { ... }*/
