@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm /var/lib/tomcat6/webapps/ODKSummary/data/processed*.json
+
 cd /home/postgres
 
 su -c ". /home/postgres/export_data.sh" -s /bin/sh postgres
