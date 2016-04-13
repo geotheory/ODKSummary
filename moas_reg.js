@@ -1,21 +1,23 @@
 
-// read in JSON file
-
-var forms, json, met, xx,
-	root_val, root_txt;
 var $dom = $( "#maincontainer" );
+
+var json = {},
+	vulner_json,
+	people_data = false,
+	vulner_data = false,
+	dd;
 
 // replace filename chars '.' with '_' - for some reason Briefcase changes these
 function replace_all(str, find, replace){ return str.replace(new RegExp(find, 'g'), replace) ;}
 
 // date/time stuff
-function month(M){for(var i=0; i<12; i++) if(M==['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]) return i+1;}
+// var mons = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+// function month(m){ return mons[+m-1] ;}
 
 // e.g. to_date("28-Jul-2015") and then toLocaleDateString() to get back
 function to_date(x){
-  var mon = month(x.substring(3,6));
-  if(x.length > 12) return new Date(x.substring(7,11), mon, x.substring(0,2), x.substring(12,14), x.substring(15,17), x.substring(18,20));
-  else return new Date(x.substring(7,11), mon, x.substring(0,2));
+  return new Date(x.substring(0,4), x.substring(5,7)-1, x.substring(8,10), x.substring(11,13), x.substring(14,16), x.substring(17,19));
+  //else return new Date(x.substring(7,11), mon, x.substring(0,2));
 }
 
 // pad number with leading zeros
@@ -24,50 +26,72 @@ function pad(num, size){ return ('000000000' + num).substr(-size); }
 var age = {"<1": "Less than 1 year", "1-4": "1-4 years", "5-12": "5-12 years", "13-17": "13-17 years", "18-34": "18-34 years", "35-49": "35-49 years", "50+": "50+ years"};
 var vul = {"": "", "VISABLY_DISABLED": "Visibly disabled", "INJURED": "Injured", "ILL": "Acute illness", "UNACCOMPANIED_MINOR": "Unaccompanied minor", "PREGNANT": "Pregnant", "SINGLE_FEMALE": "A single female traveller"};
 
-
-$.getJSON("./data/rescued_people.json", function(d) {
+$.getJSON("./data/processed_rescued_people.json", function(d) {
+	dd = d.slice(0);
 	// datify relevant fields
 	if(d.length > 0){
-		var datefields = ['SubmissionDate','SURVEY_START_TIME','SURVEY_END_TIME'];
+		var datefields = ['SURVEY_START_TIME','SURVEY_END_TIME','DETAILS_TODAY'];
 		var headers = Object.keys(d[0]);
 		for(var i=0; i<d.length; i++) for(var j=0; j<headers.length; j++) {
 			if(datefields.indexOf(headers[j]) > -1) d[i][headers[j]] = to_date(d[i][headers[j]]);
 		}
+		people_data = true;
+		json = d;
+		data_in();
 	}
-	
-	// append DOM elements
-	$('#datechart').append('<h4>Date</h4>');
-	$('#eventchart').append('<h4>Event number (that day)</h4>');
-	$('#agechart').append('<h4>Age</h4>');
-	$('#natchart').append('<h4>Nationality</h4>');
-	$('#sexchart').append('<h4>Gender</h4>');
-	$('#vulchart').append('<h4>Vulnerability</h4>');
-	$('#maincontainer').append("<div class='table_container' style='font: 12px sans-serif;'><div class='row'><div class='span12'><table class='table table-hover' id='dc-table-graph'><thead><tr class='header'><th class='data-table-col' data-col='SURVEY_END_TIME'>Submitted</th><th class='data-table-col' data-col='gender'>Gender</th><th class='data-table-col' data-col='age'>Age</th><th class='data-table-col' data-col='country'>Nationality</th><th class='data-table-col' data-col='vulnerability_str'>Vulnerability</th></tr></thead></table></div></div></div>");
-	
-	// call main function
-	summarise(d);
 });
 
+$.getJSON("./data/processed_vulnerabilities.json", function(d) {
+	if(d.length > 0){
+		vulner_data = true;
+		vulner_json = d;
+		data_in();
+	}
+});
+
+function data_in(){
+	if(people_data && vulner_data){
+		// append DOM elements
+		$('#datechart').append('<h4>Date</h4>');
+		$('#eventchart').append('<h4>Event number (that day)</h4>');
+		$('#agechart').append('<h4>Age</h4>');
+		$('#natchart').append('<h4>Nationality</h4>');
+		$('#sexchart').append('<h4>Gender</h4>');
+		$('#vulchart').append('<h4>Vulnerability</h4>');
+		$('#maincontainer').append("<div class='table_container' style='font: 12px sans-serif;'><div class='row'><div class='span12'><table class='table table-hover' id='dc-table-graph'><thead><tr class='header'><th class='data-table-col' data-col='SURVEY_END_TIME'>Submitted</th><th class='data-table-col' data-col='gender'>Gender</th><th class='data-table-col' data-col='age'>Age</th><th class='data-table-col' data-col='country'>Nationality</th><th class='data-table-col' data-col='vuln_str'>Vulnerability</th></tr></thead></table></div></div></div>");
+
+		// combine json files
+		var uids = [];
+		for(var i=0; i<json.length; i++){
+			json[i].vuln_arr = [];
+			json[i].vuln_str = '';
+			uids.push( json[i]._URI );
+		}
+
+		for(var i=0; i<vulner_json.length; i++){
+			var ind = uids.indexOf( vulner_json[i]._PARENT_AURI );
+			if(ind > -1) json[ind].vuln_arr.push( vul[vulner_json[i].VALUE] );
+		}
+
+		for(var i=0; i<json.length; i++) json[i].vuln_str = json[i].vuln_arr.join('; ');
+
+		json.forEach(function(x) {
+			x['country'] = x['DETAILS_ORIGIN_COUNTRY'];
+			x['gender'] = x['DETAILS_PATIENT_GENDER'];
+			x['age'] = x['DETAILS_PATIENT_AGE'];
+			x['date'] = x['SURVEY_START_TIME'].getUTCFullYear() + '-' + pad(x['SURVEY_START_TIME'].getUTCMonth()+1,2) + '-' + pad(x['SURVEY_START_TIME'].getUTCDate(),2);
+		});
+
+		// main function
+		summarise(json);
+	}
+}
 
 // REPORTING FUNCTIONS
 
-var j, xx, datchart;
+function summarise(){
 
-function summarise(json){
-
-	j = json;
-	j.forEach(function(x) {
-		x['country'] = x['DETAILS-ORIGIN_COUNTRY'];
-		x['gender'] = x['DETAILS-PATIENT_GENDER'];
-		x['age'] = x['DETAILS-PATIENT_AGE'];
-		xx = x['DETAILS-VULNERABILITY'].split(' ').slice(0);
-		for(var i=0; i<xx.length; i++) xx[i] = vul[xx[i]];
-		x['vulnerability_arr'] = xx.slice(0);
-		x['vulnerability_str'] = xx.slice(0).join("; ");
-		x['date'] = x['SURVEY_START_TIME'].getUTCFullYear() + '-' + pad(x['SURVEY_START_TIME'].getUTCMonth(),2) + '-' + pad(x['SURVEY_START_TIME'].getUTCDate(),2);
-	});
-
-	var cf = crossfilter(j);
+	var cf = crossfilter(json);
 	
 	var w = $('#sexchart').width();
 
@@ -98,8 +122,6 @@ function summarise(json){
 	// })
 	.yAxis().ticks(5);
 
-	datchart = date_chart;
-
 	date_chart.on("renderlet", function(d){
 		var gLabelsData = date_chart.select(".chart-body")
 			.selectAll("text.selection_total").data(date_chart.selectAll(".bar")[0]);
@@ -122,7 +144,7 @@ function summarise(json){
 	// EVENT CHART
 
 	var event_chart = dc.rowChart("#eventchart");
-	var eventDimension  = cf.dimension(function(d) { return d['DETAILS-TRIP_NUMBER']; })
+	var eventDimension  = cf.dimension(function(d) { return +d["DETAILS_TRIP_NUMBER"]; })
 		eventCountGroup = eventDimension.group();
 
 	event_chart
@@ -228,14 +250,14 @@ function summarise(json){
 
 	// 3 functions for grouping sub-arrays (https://jsfiddle.net/geotheory/ku9qd1Lx/)
 	function reduceAdd(p, v) {
-	  v.vulnerability_arr.forEach (function(val, idx) {
+	  v.vuln_arr.forEach (function(val, idx) {
 	     p[val] = (p[val] || 0) + 1; //increment counts
 	  });
 	  return p;
 	}
 
 	function reduceRemove(p, v) {
-	  v.vulnerability_arr.forEach (function(val, idx) {
+	  v.vuln_arr.forEach (function(val, idx) {
 	     p[val] = (p[val] || 0) - 1; //decrement counts
 	  });
 	  return p; 
@@ -244,7 +266,7 @@ function summarise(json){
 	function reduceInitial() { return {}; }
 
 
-	var vulnerabilities = cf.dimension(function(d){ return d.vulnerability_arr ;});
+	var vulnerabilities = cf.dimension(function(d){ return d.vuln_arr ;});
 	var vulnGroup = vulnerabilities.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value();
 	var vulnGroup_filtered = remove_empty_bins(vulnGroup)
 
@@ -311,7 +333,7 @@ function summarise(json){
 		function(d){ return d.gender; },
 		function(d){ return d.age; },
 		function(d){ return d.country; },
-		function(d){ return d.vulnerability_str; }
+		function(d){ return d.vuln_str; }
 	])
 
 	//---------------------------------------------------------------------------
