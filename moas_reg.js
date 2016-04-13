@@ -42,7 +42,7 @@ $.getJSON("./data/_01_Rescued_People_Data_Form_0_1.json", function(d) {
 	$('#natchart').append('<h4>Nationality</h4>');
 	$('#sexchart').append('<h4>Gender</h4>');
 	$('#vulchart').append('<h4>Vulnerability</h4>');
-	$('#maincontainer').append("<div class='table_container' style='font: 12px sans-serif;'><div class='row'><div class='span12'><table class='table table-hover' id='dc-table-graph'><thead><tr class='header'><th>Date</th><th>Gender</th><th>Age</th><th>Nationality</th><th>vulnerability</th></tr></thead></table></div></div></div>");
+	$('#maincontainer').append("<div class='table_container' style='font: 12px sans-serif;'><div class='row'><div class='span12'><table class='table table-hover' id='dc-table-graph'><thead><tr class='header'><th class='data-table-col' data-col='SURVEY_END_TIME'>Submitted</th><th class='data-table-col' data-col='gender'>gender</th><th class='data-table-col' data-col='age'>Age</th><th class='data-table-col' data-col='country'>Nationality</th><th class='data-table-col' data-col='vulnerability_str'>Vulnerability</th></tr></thead></table></div></div></div>");
 	
 	// call main function
 	summarise(d);
@@ -56,7 +56,7 @@ var j;
 function summarise(json){
 
 	j = json;
-	json.forEach(function(x) {
+	j.forEach(function(x) {
 		x['country'] = x['DETAILS-ORIGIN_COUNTRY'];
 		x['gender'] = x['DETAILS-PATIENT_GENDER'];
 		x['age'] = x['DETAILS-PATIENT_AGE'];
@@ -75,7 +75,7 @@ function summarise(json){
 	// DATE HISTOGRAM
 
 	var date_chart = dc.barChart("#datechart");
-	var dateDimension = cf.dimension(function(d) {return d['date'];})
+	var dateDimension = cf.dimension(function(d) {return d.date;})
 	  	dateCountGroup = dateDimension.group();
 
 	date_chart
@@ -275,19 +275,35 @@ function summarise(json){
 	//---------------------------------------------------------------------------
 	// DATA TABLE
 
-	dc.dataTable("#dc-table-graph")
-	.dimension(natDimension)
+	var dataDim = cf.dimension(function(d) {return d['SURVEY_END_TIME'];});
+	var dataTable = dc.dataTable("#dc-table-graph")
+	
+	dataTable
+	.dimension(dateDimension)
 	.group(function (d) { return ''; })
+	//.ordering(function(d) { return -d.value; })
+	.sortBy(function(d) { return -d['SURVEY_END_TIME']; })
 	.size(650)
 	.columns([
-		function(d){ return d['date']; },
-		function(d){ return d['gender']; },
-		function(d){ return d['age']; },
-		function(d){ return d['country']; },
-		function(d){ return d['vulnerability_str']; }
+		function(d){ return d.date; },
+		function(d){ return d.gender; },
+		function(d){ return d.age; },
+		function(d){ return d.country; },
+		function(d){ return d.vulnerability_str; }
 	])
 
 	//---------------------------------------------------------------------------
 	
-	dc.renderAll();	
+	dc.renderAll();
+
+	// reorder table when click on header
+	$('#dc-table-graph').on('click', '.data-table-col', function() {
+		var column = $(this).attr("data-col");
+		dataDim.dispose();
+		dataDim = cf.dimension(function(d) {return d[column];});
+		dataTable.dimension(dataDim)
+		dataTable.sortBy(function(d) { return d[column]; });
+		dataTable.redraw();
+	});
+
 }
