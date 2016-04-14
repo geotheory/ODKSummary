@@ -69,10 +69,9 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODK Summary<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="./">ODK Summary homapage</a></li>
-                <li><a href="./moas_vessel.html">MOAS recovered vessels - All Data</a></li>
-                <li><a href="./moas_vessel_today.html">MOAS recovered vessels - Today's Data</a></li>
-                <li><a href="./moas_reg.html">MOAS Registration - All Data</a></li>
-                <li><a href="./moas_reg_today.html">MOAS Registration - Today's Data</a></li>
+                <li><a href="./moas_reg.html">People rescued - all data</a></li>
+                <li><a href="./moas_reg_today.html">People rescued - today's data</a></li>
+                <li><a href="./moas_vessel.html">Vessels intercepted</a></li>
               </ul>
             </li>
             <li><a href="../ODKAggregate">ODK Aggregate</a></li>
@@ -100,9 +99,9 @@
         <h4>Basic operation</h4>
         <p><b>START UP</b> the device by flicking the 'charging' switch on in the Battery Block to 'on'. Blue LEDs in the Base Block and Battery block will light up.</p>
         <p>To <b>TURN OFF</b> the device, push the 'power' button (a very small black button) in the Base Block and keep pressed for 12 seconds.  Now wait 60 seconds for the server to power down, and then flick the 'charging' switch off to disconnect the battery.<br/></p>
-        <p>To <b>CHARGE THE BATTERY</b>, set the Battery Block switch to 'charging'/'off' and connect a USB power source (charger, power pack, phone, tablet) to the Battery Block socket. A red LED shows it's charging, and will disappear when fully charged.  Charging won't power the system on.</p>
-        <p>The <b>SD CARD</b> backs up data collected in csv format in case of a system failure.  An SD card (formatted as <i>ext4</i>) should be inserted when the system is disconnected from power and it should mount automatically on boot-up.</p>
-        <p><b>TO CONNECT</b> as a user look for a WiFi network like <i>MSF_Data1</i> and connect with the password provided seperately.  Your device is speaking to the server.</p>
+        <p>To <b>CHARGE THE BATTERY</b>, set the Battery Block switch to 'charging'/'off' and connect a USB power source (charger, power pack, phone, tablet) to the Battery Block socket. A red LED shows it's charging, and will disappear when fully charged.  Charging won't power the system on.  Please ensure any Edison battery is not left recharging too long - from empty a 6 hour charge should suffice - as overcharging can cause damage.  Avoid exposing the Edison (battery) to temperatures over 40°C, especially with the box closed.</p>
+        <p>The <b>SD CARD</b> backs up data collected in csv format in case of a system failure.  An SD card (formatted as <i>ext4</i>) should be inserted when the system is disconnected from power and it should mount automatically on boot-up.  Data is automatically backed up to SD card.</p>
+        <p><b>TO CONNECT</b> as a user look for a WiFi network like <i>MissingMaps1</i> and connect with the password provided seperately.  Your device is speaking to the server.</p>
         <p>A system administrator can <b>ACCESS THE SERVER</b> either over wifi with ssh or via USB with the `screen` app.  Instructions seperately.<i>
 
         </div>

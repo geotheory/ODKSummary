@@ -8,19 +8,19 @@
 
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="web/favicon.ico">
+    <link rel="icon" href="./web/favicon.ico">
 
-    <title>MSF Data | MOAS Reg Reference</title>
+    <title>MSF-ODK | Troubleshooting</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/starter-template.css" rel="stylesheet">
+    <link href="./css/starter-template.css" rel="stylesheet">
 
     <!-- my styles -->
-    <link href="css/custom.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
+    <link href="./css/custom.css" rel="stylesheet">
+    <script src="./js/jquery.min.js"></script>
 
   </head>
 
@@ -51,8 +51,8 @@
     updateTime();
     //-->
   </script>
-  
-    <!-- Bootstrap collapsable nav menu -->
+
+        <!-- Bootstrap collapsable nav menu -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -68,18 +68,18 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODK Summary<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="./">ODK Summary homapage</a></li>
-                <li><a href="./moas_reg.html">People rescued - all data</a></li>
-                <li><a href="./moas_reg_today.html">People rescued - today's data</a></li>
-                <li><a href="./moas_vessel.html">Vessels intercepted</a></li>
+                <li><a href=":8080/ODKSummary/">ODK Summary homapage</a></li>
+                <li><a href=":8080/ODKSummary/moas_reg.html">People rescued - all data</a></li>
+                <li><a href=":8080/ODKSummary/moas_reg_today.html">People rescued - today's data</a></li>
+                <li><a href=":8080/ODKSummary/moas_vessel.html">Vessels intercepted</a></li>
               </ul>
             </li>
-            <li><a href="../ODKAggregate">ODK Aggregate</a></li>
+            <li><a href=":8080/ODKAggregate">ODK Aggregate</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="./help_hardware.html">The Intel Edison server</a></li>
-                <li><a href="./help_odkcollect.html">ODK Collect for Android</a></li>
+                <li><a href=":8080/ODKSummary/help_hardware.html">The Intel Edison server</a></li>
+                <li><a href=":8080/ODKSummary/help_odkcollect.html">ODK Collect for Android</a></li>
               </ul>
               <li class="nav navbar-nav pull-left"><a href="#" id="time">(system time)</a></li>
             </li>
@@ -90,9 +90,29 @@
 
     <div class="starter-template">
       <div id="maincontainer">
-        <br/>
-        <h3>MOAS Registration Reference - coming soon..</h3>
-      </div> 
+        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-3"></div>
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+          <img src="./img/Msf_logo.svg.png" width="150">
+          <h3>Troubleshooting</h3><br>
+          <h4>Windows connecting to domain</h4>
+          <p>Windows machines can have difficulty accessing the local network domain that the Edison is serving (ie. http://mm/) while probably still being able to accesvie local network IP (ie. 192.168.0.1).  If you get this problem the following procedure may resolve it:</p>
+          <pre text-align:'left'>
+          1. Go into Network Connections (I just typed "Network Connections" om the start icon -> run box)
+          2. Right click on your Network Adapter and go into Properties
+          3. Select "Internet Protocol Version 4 (TCP/IPv4)"
+          4. Under the General Tab click Advanced
+          5. Under the DNS Tab select the radio button that says "Append these DNS suffixes (in order)"
+          6. Click "Add…"
+          7. Enter a single period in the text box and click "Add."
+          8. Click OK in the "Advanced TCP/IP Settings" Dialog
+          9. Click OK in the "Local Area Connection Properties" Dialog
+          10. Try connecting in browser (Chrome incognito mode, or Firefox private mode) to "mm/" or "http://mm/"
+
+          source: http://jqnotes.blogspot.ca/2012/08/configure-windows-7-to-support-dnsmasq.html
+          </pre>
+        </div>
+        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-2"></div>
+      </div>
     </div>
 
 <script type="text/javascript">
@@ -119,11 +139,26 @@ $(document).ready(function() {
 });
 </script>
 
+<script type="text/javascript">
+  // delegate event for performance, and save attaching a million events to each anchor
+document.addEventListener('click', function(event) {
+  var target = event.target;
+  if (target.tagName.toLowerCase() == 'a')
+  {
+      var port = target.getAttribute('href').match(/^:(\d+)(.*)/);
+      if (port)
+      {
+         target.href = port[2];
+         target.port = port[1];
+      }
+  }
+}, false);
+</script>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/bootstrap.min.js"></script>
-
+    <script src="./js/bootstrap.min.js"></script>
   </body>
 </html>
