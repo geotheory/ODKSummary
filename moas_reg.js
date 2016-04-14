@@ -46,6 +46,9 @@ $.getJSON("./data/processed_vulnerabilities.json", function(d) {
 		vulner_data = true;
 		vulner_json = d;
 		data_in();
+	} else{
+		vulner_data = true;
+		vulner_json = [];
 	}
 });
 

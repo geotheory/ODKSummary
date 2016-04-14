@@ -80,7 +80,7 @@ function summarise(){
 	// $('#dc-table-graph').on('click', '.data-table-col', function() {
 	// 	var column = $(this).attr("data-col");
 	// 	dataDim.dispose();
-	// 	dataDim = cf.dimension(function(d) {return d[column];});
+	// 	dataDim = cf.dimension(function(d) {return d[column]; });
 	// 	dataTable.dimension(dataDim)
 	// 	dataTable.sortBy(function(d) { return d[column]; });
 	// 	dataTable.redraw();

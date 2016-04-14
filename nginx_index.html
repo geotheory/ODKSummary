@@ -8,19 +8,19 @@
 
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="web/favicon.ico">
+    <link rel="icon" href="./web/favicon.ico">
 
-    <title>MSF-ODK | ODK Collect</title>
+    <title>MSF-ODK | Home</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/starter-template.css" rel="stylesheet">
+    <link href="./css/starter-template.css" rel="stylesheet">
 
     <!-- my styles -->
-    <link href="css/custom.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
+    <link href="./css/custom.css" rel="stylesheet">
+    <script src="./js/jquery.min.js"></script>
 
   </head>
 
@@ -52,7 +52,7 @@
     //-->
   </script>
 
-    <!-- Bootstrap collapsable nav menu -->
+        <!-- Bootstrap collapsable nav menu -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -68,19 +68,19 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">ODK Summary<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="./">ODK Summary homapage</a></li>
-                <li><a href="./moas_vessel.html">MOAS recovered vessels - All Data</a></li>
-                <li><a href="./moas_vessel_today.html">MOAS recovered vessels - Today's Data</a></li>
-                <li><a href="./moas_reg.html">MOAS Registration - All Data</a></li>
-                <li><a href="./moas_reg_today.html">MOAS Registration - Today's Data</a></li>
+                <li><a href=":8080/ODKSummary/">ODK Summary homapage</a></li>
+                <li><a href=":8080/ODKSummary/moas_vessel.html">MOAS recovered vessels - All Data</a></li>
+                <li><a href=":8080/ODKSummary/moas_vessel_today.html">MOAS recovered vessels - Today's Data</a></li>
+                <li><a href=":8080/ODKSummary/moas_reg.html">MOAS Registration - All Data</a></li>
+                <li><a href=":8080/ODKSummary/moas_reg_today.html">MOAS Registration - Today's Data</a></li>
               </ul>
             </li>
-            <li><a href="../ODKAggregate">ODK Aggregate</a></li>
+            <li><a href=":8080/ODKAggregate">ODK Aggregate</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="./help_hardware.html">The Intel Edison server</a></li>
-                <li><a href="./help_odkcollect.html">ODK Collect for Android</a></li>
+                <li><a href=":8080/ODKSummary/help_hardware.html">The Intel Edison server</a></li>
+                <li><a href=":8080/ODKSummary/help_odkcollect.html">ODK Collect for Android</a></li>
               </ul>
               <li class="nav navbar-nav pull-left"><a href="#" id="time">(system time)</a></li>
             </li>
@@ -91,31 +91,24 @@
 
     <div class="starter-template">
       <div id="maincontainer">
-        <br/>
-        
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <h4>OpenDataKit</h4>
-
-        <p>ODK is a mobile data collection system made up of two main components.  Firstly a customisable Android app for data collection in the field (<i>ODK Collect</i>) and secondly a server for collating records into a single database (<i>ODK Aggregate</i>).  ODK Collect will run on your phone/tablet, the data you collect will be sent to the mobile ODK Aggregate server, and you'll then be able to download and visualise it in the field with these pages (<i>ODK Summary</i>).</p>
-        <h4>Setting up ODK Collect</h4>
+        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-3"></div>
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+        <img src="./img/Msf_logo.svg.png" width="150">
+        <h3>MSF OpenDataKit</h3><br>
+        <p>Welcome to the world of data collection with OpenDataKit, made possible by the awesome Intel Edison mobile server.</p>
         <ul>
-        <li><p>Download the <b>ODK Collect</b> app from the Google Play repository. For this you'll need an Internet connection.</p></li>
-        <li><p> Once downloaded set up the <b> network connection</b>. Make sure that the device is switched on (as shown in the <a href="./help_hardware.html">hardware setup page</a>). On your device, find the network named "MSF_Data1/2", and add the username and password.  
-        <li><p>Next we need to <b>configure ODK Collect</b> to speak to ODK Aggregate: open ODK Collect, go to <i>General Settings/Configure platform settings</i>, then enter the URL <u>http://data.msf:8080/ODKAggregate</u> and the designated username and password.</p></li>
-        <li><p>Back in <i>General settings </i> tick the option to <i>Auto send with Wi-Fi</i>.</p></li>
-        <li><p>Now <b>get the forms</b>.  In the main menu of ODK, go to <i>Get Blank Form</i>, select forms <i>MOAS OPD v.9.5</i> and <i>MOAS registration form v9.5</i> and download them. </p></li>
+          <li><h4 align="left"><a href=":8080/ODKAggregate">ODK Aggregate: the official interface</a></h4></li>
+          <li><h4 align="left"><a href=":8080/ODKSummary">ODK Summary: interactive data summaries</a></h4></li>
         </ul>
-        <h4>Collecting data</h4>
-        <p>You're ready to go. To <b> input data </b> select <u> Fill Blank Form</u> and complete it.  Swipe from right to left to move through the form or finish it.  Mark it as finalized and that's it - the record will be sent to the server.  If you need to de-select an option, long-press it till you get the option 'Remove response'.</p>
+        <h3>Downloads</h3>
+        <ul>
+          <li><h4 align="left"><a href="/files/ODK_Collect_v1.4.7_rev_1053.apk">ODK Collect: the data collection app for Android</a></h4></li>
+        </ul>
+        <br>
+        <h4>Data protection</h4>
+        <p>The MSF data sharing policy is based on the principles of medical confidentiality, privacy, protection of sensitive data, equality among data users, promotion of health benefits to the greater population, sharing for the local benefit, intellectual property, collaborative partnership, and efficiency. This policy applies to all health data generated in MSF programs or sites, where MSF acts as a Custodian for such data. Please refer to the <a href="/files/MSF_data_sharing_policy_final_061213.pdf">MSF Data Sharing Policy</a> for more detailed information.</p>
         </div>
-
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <img src="./img/odk-in-the-field.jpg" style="width:100%; height:100%">
-        </div>
-
-        
-        
-
+        <div class="col-xs-0 col-sm-2 col-md-2 col-lg-2"></div>
       </div> 
     </div>
 
@@ -143,10 +136,26 @@ $(document).ready(function() {
 });
 </script>
 
+<script type="text/javascript">
+  // delegate event for performance, and save attaching a million events to each anchor
+document.addEventListener('click', function(event) {
+  var target = event.target;
+  if (target.tagName.toLowerCase() == 'a')
+  {
+      var port = target.getAttribute('href').match(/^:(\d+)(.*)/);
+      if (port)
+      {
+         target.href = port[2];
+         target.port = port[1];
+      }
+  }
+}, false);
+</script>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
   </body>
 </html>
