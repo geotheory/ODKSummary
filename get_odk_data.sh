@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm /var/lib/tomcat6/webapps/ODKSummary/data/processed*.json
+rm -f /var/lib/tomcat6/webapps/ODKSummary/data/processed*.json
 
 cd /home/postgres
 
@@ -14,4 +14,3 @@ python csv2json.py data/processed_rescued_people.csv data/processed_rescued_peop
 python csv2json.py data/processed_vulnerabilities.csv data/processed_vulnerabilities.json
 python csv2json.py data/processed_rescued_vessels.csv data/processed_rescued_vessels.json
 
-echo 'Done. For debugging see data/debug.log'
