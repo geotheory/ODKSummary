@@ -51,6 +51,9 @@
         }
         setTimeout("updateTime()",1000);
         document.getElementById('time').innerHTML=v;
+        // count 
+        var count_msg = 'Selection count: ' + sum_filter();
+        document.getElementById('filter_count').innerHTML=count_msg;
     }
     updateTime();
     //-->
@@ -96,6 +99,7 @@
 
     <div class="container">
       <div class="starter-template">
+        <div><h4 id="filter_count">(counting records..)</h4></div>
         <div id="maincontainer">
         <div class="row">
         <div></div>

@@ -7,6 +7,16 @@ var json = {},
 	vulner_data = false,
 	dd;
 
+// function to count records in current filter
+function sum_filter(){
+	var sum = 0;
+	var arr = countGroup.all();
+	for (var i=0; i<arr.length; i++) {
+		sum += arr[i].value;
+	}
+	return sum;
+}
+
 // replace filename chars '.' with '_' - for some reason Briefcase changes these
 function replace_all(str, find, replace){ return str.replace(new RegExp(find, 'g'), replace) ;}
 
@@ -98,13 +108,21 @@ function summarise(){
 	
 	var w = $('#sexchart').width();
 
+	// COUNT DIMENSION (FOR FILTER COUNT)
+	var count_chart = dc.barChart("#countchart");
+		countDimension = cf.dimension(function(d) {return d.date;});
+		countGroup = countDimension.group();
+	count_chart.dimension(countDimension)
+		.group(countGroup)
+		.x(d3.scale.ordinal().domain( countGroup.order() ));
+
 	//---------------------------------------------------------------------------
 	// DATE HISTOGRAM
 
 	var date_chart = dc.barChart("#datechart");
-	var dateDimension = cf.dimension(function(d) {return d.date;})
-	  	dateCountGroup = dateDimension.group();
-	xx = dateCountGroup;
+		dateDimension = cf.dimension(function(d) {return d.date;});
+		dateCountGroup = dateDimension.group();
+	//xx = dateCountGroup;
 
 	date_chart
 	.dimension(dateDimension)
@@ -146,8 +164,8 @@ function summarise(){
 	//---------------------------------------------------------------------------
 	// EVENT CHART
 
-	var event_chart = dc.rowChart("#eventchart");
-	var eventDimension  = cf.dimension(function(d) { return +d["DETAILS_TRIP_NUMBER"]; })
+	var event_chart = dc.rowChart("#eventchart"),
+		eventDimension  = cf.dimension(function(d) { return +d["DETAILS_TRIP_NUMBER"]; }),
 		eventCountGroup = eventDimension.group();
 
 	event_chart
@@ -170,8 +188,8 @@ function summarise(){
 	//---------------------------------------------------------------------------
 	// AGE HISTOGRAM
 
-	var age_chart = dc.barChart("#agechart");
-	var	ageDimension        = cf.dimension(function(d) {return d.age;}),
+	var age_chart = dc.barChart("#agechart"),
+		ageDimension        = cf.dimension(function(d) {return d.age;}),
 		ageCountGroup       = ageDimension.group();
 
 	age_chart
@@ -195,8 +213,8 @@ function summarise(){
 	//---------------------------------------------------------------------------
 	// GENDER PIE
 
-	var sex_chart = dc.pieChart("#sexchart");
-	var sexDimension  = cf.dimension(function(d) {return d.gender;})
+	var sex_chart = dc.pieChart("#sexchart"),
+		sexDimension  = cf.dimension(function(d) {return d.gender;}),
 		sexCountGroup = sexDimension.group();
 
 	sex_chart
@@ -212,9 +230,9 @@ function summarise(){
 	//---------------------------------------------------------------------------
 	// NATIONALITY CHART
 
-	var nat_chart = dc.rowChart("#natchart");
-	var natDimension  = cf.dimension(function(d) { return d.country; });
-	var natCountGroup = natDimension.group();
+	var nat_chart = dc.rowChart("#natchart"),
+		natDimension  = cf.dimension(function(d) { return d.country; }),
+		natCountGroup = natDimension.group();
 
 	nat_chart
 	.rowsCap(12)
@@ -271,7 +289,7 @@ function summarise(){
 
 	var vulnerabilities = cf.dimension(function(d){ return d.vuln_arr ;});
 	var vulnGroup = vulnerabilities.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value();
-	var vulnGroup_filtered = remove_empty_bins(vulnGroup)
+	var vulnGroup_filtered = remove_empty_bins(vulnGroup);
 
 	// hack to make dc.js charts work
 	vulnGroup.all = function() {
@@ -322,8 +340,8 @@ function summarise(){
 	//---------------------------------------------------------------------------
 	// DATA TABLE
 
-	var dataDim = cf.dimension(function(d) {return d['SURVEY_END_TIME'];});
-	var dataTable = dc.dataTable("#dc-table-graph")
+	dataDim = cf.dimension(function(d) {return d['SURVEY_END_TIME'];});
+	dataTable = dc.dataTable("#dc-table-graph");
 	
 	dataTable
 	.dimension(dateDimension)
@@ -340,7 +358,7 @@ function summarise(){
 	])
 
 	//---------------------------------------------------------------------------
-	
+
 	dc.renderAll();
 
 	// reorder table when click on header
@@ -353,4 +371,12 @@ function summarise(){
 		dataTable.redraw();
 	});
 
+	// catch any click to update filter sum
+	$(document).click(function() {
+		//console.log(sum_filter());
+		var count_msg = 'Selection count: ' + sum_filter();
+		document.getElementById('filter_count').innerHTML=count_msg;
+	});
+
 }
+
